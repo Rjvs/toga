@@ -273,10 +273,10 @@ class Pack(PackLogic):
     Any other value will be checked against the family names previously registered with
     [`Font.register`][toga.Font.register].
 
-    On supported platforms (currently Windows and Linux), if Toga doesn't recognize the
-    family as one of its predefined builtins or as a font you've registered, it will
-    attempt to load the requested font from your system before falling back to the
-    default system font.
+    On supported platforms (currently macOS, iOS, Windows, and Linux), if Toga doesn't
+    recognize the family as one of its predefined builtins or as a font you've
+    registered, it will attempt to load the requested font from your system before
+    falling back to the default system font.
     """
     font_style: str = validated_property(*FONT_STYLES, initial=NORMAL)
     """The style of the font to be used.

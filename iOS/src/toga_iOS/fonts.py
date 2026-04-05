@@ -97,7 +97,14 @@ class Font:
 
     def load_arbitrary_system_font(self):
         """Use a font available on the system."""
-        raise UnknownFontError("Arbitrary system fonts not yet supported on iOS")
+        font_name = self.interface.family
+        if self.interface.size == SYSTEM_DEFAULT_FONT_SIZE:
+            size = UIFont.labelFontSize
+        else:
+            size = self.interface.size * 96 / 72
+        if UIFont.fontWithName(font_name, size=size) is None:
+            raise UnknownFontError(f"{self.interface} not found on this system")
+        self._assign_native(font_name)
 
     def _assign_native(self, font_name):
         if self.interface.size == SYSTEM_DEFAULT_FONT_SIZE:

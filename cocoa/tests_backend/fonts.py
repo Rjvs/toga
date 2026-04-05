@@ -23,7 +23,7 @@ class FontMixin:
     supports_custom_variable_fonts = False
 
     def preinstalled_font(self):
-        pytest.skip("Use of arbitrary system fonts is not yet supported on macOS.")
+        return "Helvetica Neue"
 
     def assert_font_options(self, weight=NORMAL, style=NORMAL, variant=NORMAL):
         # Cocoa's FANTASY (Papyrus) and CURSIVE (Apple Chancery) system

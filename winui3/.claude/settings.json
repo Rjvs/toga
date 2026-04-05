@@ -1,0 +1,40 @@
+{
+  "env": {
+    "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:~/.local/bin:$PATH"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'export FILES_MODIFIED=false' >> \"$CLAUDE_ENV_FILE\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'export FILES_MODIFIED=true' >> \"$CLAUDE_ENV_FILE\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$FILES_MODIFIED\" = 'true' ] && prek run --all-files && uv run pytest || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

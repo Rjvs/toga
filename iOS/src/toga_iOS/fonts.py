@@ -106,6 +106,10 @@ class Font:
             raise UnknownFontError(f"{self.interface} not found on this system")
         self._assign_native(font_name)
 
+    @staticmethod
+    def installed_families():
+        return {str(name) for name in UIFont.familyNames}
+
     def _assign_native(self, font_name):
         if self.interface.size == SYSTEM_DEFAULT_FONT_SIZE:
             size = UIFont.labelFontSize

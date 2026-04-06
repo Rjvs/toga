@@ -80,6 +80,10 @@ class Font:
         """Use a font available on the system."""
         raise UnknownFontError("Arbitrary system fonts not yet supported on Android")
 
+    @staticmethod
+    def installed_families():
+        raise NotImplementedError("Font enumeration is not supported on Android")
+
     def _assign_native(self, typeface):
         style = 0
         if self.interface.weight == BOLD:

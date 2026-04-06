@@ -6,3 +6,7 @@ class Font:
     def load_user_registered_font(self): ...
 
     def load_arbitrary_system_font(self): ...
+
+    @staticmethod
+    def installed_families():
+        raise NotImplementedError("Font enumeration is not supported on textual")

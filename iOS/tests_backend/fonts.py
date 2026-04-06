@@ -22,6 +22,7 @@ from toga_iOS.libs import (
 class FontMixin:
     supports_custom_fonts = True
     supports_custom_variable_fonts = False
+    supports_font_enumeration = True
 
     def preinstalled_font(self):
         return "Georgia"

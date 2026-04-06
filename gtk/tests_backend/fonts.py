@@ -12,6 +12,7 @@ from toga_gtk.libs import GTK_VERSION, Pango
 class FontMixin:
     supports_custom_fonts = True
     supports_custom_variable_fonts = True
+    supports_font_enumeration = True
 
     def preinstalled_font(self):
         return "Liberation Serif"

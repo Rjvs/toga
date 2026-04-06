@@ -81,6 +81,11 @@ class Font:
 
         self._assign_native()
 
+    @staticmethod
+    def installed_families():
+        font_map = PangoCairo.FontMap.get_default()
+        return {family.get_name() for family in font_map.list_families()}
+
     def _assign_native(self):
         # Initialize font with properties '[Font family] NORMAL NORMAL NORMAL 0'
         font = Pango.FontDescription(self.interface.family)

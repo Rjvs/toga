@@ -120,6 +120,13 @@ def test_builtin_font(family, size, weight, style, variant, as_str):
     assert str(font) == as_str
 
 
+def test_installed_families():
+    """The list of installed font families can be retrieved."""
+    families = toga.Font.installed_families()
+    assert isinstance(families, set)
+    assert families == {"Font Family 1", "Font Family 2", "Font Family 3"}
+
+
 @pytest.mark.parametrize(
     "family, weight, style, variant, key",
     [

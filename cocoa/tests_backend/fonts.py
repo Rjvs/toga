@@ -19,6 +19,7 @@ from toga_cocoa.libs.appkit import NSFontMask
 class FontMixin:
     supports_custom_fonts = True
     supports_custom_variable_fonts = False
+    supports_font_enumeration = True
 
     def preinstalled_font(self):
         return "Helvetica Neue"

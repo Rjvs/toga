@@ -43,6 +43,26 @@ Font.register("Bahnschrift", "resources/Bahnschrift.ttf")
 Font.register("Bahnschrift", "resources/Bahnschrift.ttf", weight=BOLD)
 ```
 
+On some platforms, you can also use fonts that are already installed on the system without registering them. Simply use the font's family name directly:
+
+```python
+import toga
+
+# Use a system-installed font by name
+my_label = toga.Label("Hello World", font_family="Helvetica Neue")
+```
+
+To discover which font families are available on the current system, use [`Font.installed_families()`][toga.Font.installed_families]:
+
+```python
+import toga
+
+# Get the set of all installed font family names
+families = toga.Font.installed_families()
+```
+
+This returns a set of family name strings. It does not include Toga's predefined generic families (system, message, serif, sans-serif, etc.) or user-registered fonts.
+
 A small number of Toga APIs (e.g., [`State.write_text`][toga.widgets.canvas.State.write_text]) *do* require the use of [`Font`][toga.Font] instance. In these cases, you can instantiate a Font using similar properties to the ones used for widget styling:
 
 ```python
@@ -61,6 +81,8 @@ When constructing your own [`Font`][toga.Font] instance, ensure that the font fa
 
 ## Notes
 
+- Arbitrary system-installed fonts can be used on macOS, iOS, Windows, and Linux (GTK and Qt). Android, Textual, and Web backends do not yet support this.
+- Font enumeration via `Font.installed_families()` is supported on macOS, iOS, Windows, Linux (GTK and Qt). Android, Textual, and Web backends raise `NotImplementedError`.
 - iOS and macOS do not support the use of variant font files (that is, fonts that contain the details of multiple weights/variants in a single file). Variant font files can be registered; however, only the "normal" variant will be used.
 - Android and Windows do not support the oblique font style. If an oblique font is specified, Toga will attempt to use an italic style of the same font.
 - Android and Windows do not support the small caps font variant. If a Small Caps font is specified, Toga will use the normal variant of the same font.

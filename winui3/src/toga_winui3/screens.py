@@ -135,16 +135,13 @@ class Screen:
 
     def get_image_data(self):
         """Capture this monitor's contents as BMP image bytes using GDI."""
-        try:
-            from .libs.screenshot import capture_rect
+        from .libs.screenshot import capture_rect
 
-            x = self._origin[0]
-            y = self._origin[1]
-            w = self._size[0]
-            h = self._size[1]
-            return capture_rect(int(x), int(y), int(w), int(h))
-        except Exception:
-            return b""
+        x = self._origin[0]
+        y = self._origin[1]
+        w = self._size[0]
+        h = self._size[1]
+        return capture_rect(int(x), int(y), int(w), int(h))
 
 
 class _MONITORINFOEXW(ctypes.Structure):

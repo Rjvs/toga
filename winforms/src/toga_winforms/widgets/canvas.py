@@ -23,6 +23,7 @@ from System.Drawing.Imaging import ImageFormat
 from System.IO import MemoryStream
 
 from toga.colors import TRANSPARENT, rgb
+from toga.fonts import POINTS_PER_PIXEL
 from toga.constants import Baseline, FillRule
 from toga.handlers import WeakrefCallable
 from toga.widgets.canvas.geometry import arc_to_bezier, round_rect, sweepangle
@@ -426,7 +427,7 @@ class Canvas(Box):
             return font.metric("LineSpacing")
         else:
             # Get size in CSS pixels
-            return (font.native.SizeInPoints * 96 / 72) * line_height
+            return (font.native.SizeInPoints * POINTS_PER_PIXEL) * line_height
 
     def measure_text(self, text, font, line_height):
         graphics = self.native.CreateGraphics()

@@ -595,6 +595,8 @@ class Canvas(Widget):
         self.native.add_PointerPressed(WeakrefCallable(self.winui3_pointer_pressed))
         self.native.add_PointerMoved(WeakrefCallable(self.winui3_pointer_moved))
         self.native.add_PointerReleased(WeakrefCallable(self.winui3_pointer_released))
+        self.native.add_Tapped(WeakrefCallable(self.winui3_tapped))
+        self.native.add_RightTapped(WeakrefCallable(self.winui3_right_tapped))
         self.native.add_DoubleTapped(WeakrefCallable(self.winui3_double_tapped))
 
     # ── Drawing ──────────────────────────────────────────────────────
@@ -618,14 +620,22 @@ class Canvas(Widget):
 
     def winui3_pointer_pressed(self, sender, args):
         point = args.GetCurrentPoint(self.native)
-        x, y = point.Position.X, point.Position.Y
-        if point.Properties.IsLeftButtonPressed:
-            self.interface.on_press(x, y)
-            self.dragging = True
-        elif point.Properties.IsRightButtonPressed:
-            self.interface.on_alt_press(x, y)
+        if (
+            point.Properties.IsLeftButtonPressed
+            or point.Properties.IsRightButtonPressed
+        ):
             self.dragging = True
         self.native.CapturePointer(args.Pointer)
+
+    def winui3_tapped(self, sender, args):
+        # Tapped only fires on single taps (not the second click of a
+        # double-tap), matching WinForms' Clicks==1 guard for on_press.
+        pos = args.GetPosition(self.native)
+        self.interface.on_press(pos.X, pos.Y)
+
+    def winui3_right_tapped(self, sender, args):
+        pos = args.GetPosition(self.native)
+        self.interface.on_alt_press(pos.X, pos.Y)
 
     def winui3_pointer_moved(self, sender, args):
         if not self.dragging:

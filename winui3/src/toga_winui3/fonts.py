@@ -12,6 +12,7 @@ from toga.fonts import (
     FANTASY,
     MESSAGE,
     MONOSPACE,
+    POINTS_PER_PIXEL,
     SANS_SERIF,
     SERIF,
     SYSTEM,
@@ -91,11 +92,11 @@ class Font:
         else:
             self.native_style = WinUIFontStyle.Normal
 
-        # Font size (in DIPs - device independent pixels, same as CSS pixels)
+        # Font size: convert CSS points to DIPs (device independent pixels).
         if self.interface.size == SYSTEM_DEFAULT_FONT_SIZE:
             self.native_size = DEFAULT_FONT_SIZE
         else:
-            self.native_size = self.interface.size
+            self.native_size = self.interface.size * POINTS_PER_PIXEL
 
         _IMPL_CACHE[self.interface] = self
 
@@ -226,9 +227,10 @@ def _get_text_metrics(font):
             return None
 
         # Map font properties to GDI CreateFontW parameters.
-        # Size is in DIPs (same as points at 96 DPI). GDI expects negative
-        # lfHeight for character height (not cell height).
-        height = -int(font.native_size * 96 / 72)
+        # native_size is in DIPs (CSS pixels); at 96 DPI, GDI logical units
+        # equal DIPs, so use native_size directly as lfHeight (negative for
+        # character height, not cell height).
+        height = -int(font.native_size)
         weight = FW_BOLD if font.interface.weight == "bold" else FW_NORMAL
         italic = 1 if font.interface.style in {"italic", "oblique"} else 0
 

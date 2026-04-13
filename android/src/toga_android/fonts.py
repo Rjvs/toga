@@ -15,6 +15,7 @@ from toga.fonts import (
     MESSAGE,
     MONOSPACE,
     OBLIQUE,
+    POINTS_PER_PIXEL,
     SANS_SERIF,
     SERIF,
     SYSTEM,
@@ -119,6 +120,6 @@ class Font:
             # points by default, but respect the system text scaling setting.
             return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,
-                self.interface.size * (96 / 72),
+                self.interface.size * POINTS_PER_PIXEL,
                 context.getResources().getDisplayMetrics(),
             )

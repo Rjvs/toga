@@ -69,15 +69,7 @@ class App:
         if icon and icon._impl:
             icon_path = str(icon._impl.path)
             for window in self.interface.windows:
-                try:
-                    window._impl.native.AppWindow.SetIcon(icon_path)
-                except Exception as e:
-                    import warnings
-
-                    warnings.warn(
-                        f"Failed to set icon on window: {e}",
-                        stacklevel=2,
-                    )
+                window._impl.native.AppWindow.SetIcon(icon_path)
 
     def set_main_window(self, window):
         pass

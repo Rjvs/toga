@@ -320,15 +320,11 @@ class Window(Container):
             return WindowState.FULLSCREEN
 
         if presenter.Kind == AppWindowPresenterKind.Overlapped:
-            # Cast to OverlappedPresenter to read state.
-            try:
-                state = presenter.State
-                if state == OverlappedPresenterState.Maximized:
-                    return WindowState.MAXIMIZED
-                elif state == OverlappedPresenterState.Minimized:
-                    return WindowState.MINIMIZED
-            except Exception:
-                pass
+            state = presenter.State
+            if state == OverlappedPresenterState.Maximized:
+                return WindowState.MAXIMIZED
+            elif state == OverlappedPresenterState.Minimized:
+                return WindowState.MINIMIZED
 
         return WindowState.NORMAL
 
@@ -409,27 +405,24 @@ class Window(Container):
 
     def get_image_data(self):
         """Capture window content as PNG image bytes using GDI."""
-        try:
-            from .libs.screenshot import capture_rect
+        from .libs.screenshot import capture_rect
 
-            app_window = self.native.AppWindow
-            # Get the window position and content area size.
-            pos = app_window.Position
-            bounds = self.native.Bounds
-            # Bounds gives the content area dimensions; position is the
-            # outer window position. The title bar offset means the content
-            # starts below the title bar. Approximate title bar height from
-            # the difference between window size and content bounds.
-            scale = self._dpi_scale()
-            win_size = app_window.Size
-            title_bar_height = win_size.Height - int(bounds.Height * scale)
-            x = pos.X
-            y = pos.Y + title_bar_height
-            w = int(bounds.Width * scale)
-            h = int(bounds.Height * scale)
-            return capture_rect(x, y, w, h)
-        except Exception:
-            return b""
+        app_window = self.native.AppWindow
+        # Get the window position and content area size.
+        pos = app_window.Position
+        bounds = self.native.Bounds
+        # Bounds gives the content area dimensions; position is the
+        # outer window position. The title bar offset means the content
+        # starts below the title bar. Approximate title bar height from
+        # the difference between window size and content bounds.
+        scale = self._dpi_scale()
+        win_size = app_window.Size
+        title_bar_height = win_size.Height - int(bounds.Height * scale)
+        x = pos.X
+        y = pos.Y + title_bar_height
+        w = int(bounds.Width * scale)
+        h = int(bounds.Height * scale)
+        return capture_rect(x, y, w, h)
 
 
 class MainWindow(Window):

@@ -96,6 +96,7 @@ class MapView(Widget):
         # Cache location and zoom so getters don't need synchronous JS eval.
         self._location = LatLng(0.0, 0.0)
         self._zoom = 0
+        self._pins = set()
 
         asyncio.ensure_future(self._initialize())
 
@@ -179,6 +180,7 @@ class MapView(Widget):
             f'pins["{pin_id(pin)}"] = L.marker({latlng(pin.location)}).addTo(map)'
             f".bindPopup({content});"
         )
+        self._pins.add(pin_id(pin))
 
     def update_pin(self, pin):
         content = json.dumps(popup(pin))
@@ -191,6 +193,7 @@ class MapView(Widget):
         self._invoke(
             f'map.removeLayer(pins["{pin_id(pin)}"]); delete pins["{pin_id(pin)}"];'
         )
+        self._pins.discard(pin_id(pin))
 
     ######################################################################
     # Layout

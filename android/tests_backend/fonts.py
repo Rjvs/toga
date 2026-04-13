@@ -14,6 +14,7 @@ from toga.fonts import (
     MESSAGE,
     NORMAL,
     OBLIQUE,
+    POINTS_PER_PIXEL,
     SMALL_CAPS,
     SYSTEM,
     SYSTEM_DEFAULT_FONT_SIZE,
@@ -81,11 +82,11 @@ class FontMixin:
 
     def assert_font_size(self, expected):
         if expected == SYSTEM_DEFAULT_FONT_SIZE:
-            expected = self.default_font_size * (72 / 96)
+            expected = self.default_font_size / POINTS_PER_PIXEL
         assert round(self.text_size) == round(
             TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,
-                expected * (96 / 72),
+                expected * POINTS_PER_PIXEL,
                 self.native.getResources().getDisplayMetrics(),
             )
         )

@@ -12,6 +12,7 @@ from toga.fonts import (
     MESSAGE,
     MONOSPACE,
     OBLIQUE,
+    POINTS_PER_PIXEL,
     SANS_SERIF,
     SERIF,
     SMALL_CAPS,
@@ -107,7 +108,7 @@ class Font:
             # A "point" in Apple APIs is equivalent to a CSS pixel, but the Toga public
             # API works in CSS points, which are slightly larger
             # (https://developer.apple.com/library/archive/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html).
-            size = self.interface.size * 96 / 72
+            size = self.interface.size * POINTS_PER_PIXEL
 
         # Construct the NSFont
         if font_name == SYSTEM:

@@ -90,8 +90,9 @@ class Font(BaseFont):
             ``"normal"`` (100%), ``"condensed"`` (75%), ``"expanded"`` (125%), or a
             numeric percentage.
         :param axes: A dict mapping custom OpenType axis tags to numeric values (e.g.,
-            ``{"CASL": 0.5, "MONO": 1}``). Standard axis tags (``wght``, ``wdth``,
-            ``ital``, ``slnt``, ``opsz``) must be set via named parameters instead.
+            ``{"CASL": 0.5, "MONO": 1}``). Standard axis tags that have dedicated
+            named properties (``wght``, ``wdth``, ``ital``) must be set via those
+            properties instead.
 
         :raises UnknownFontError: If the font family requested corresponds to neither
             one of the [built-in system fonts][toga.style.pack.Pack.font_family], nor a

@@ -120,8 +120,11 @@ WIDTH_KEYWORDS = {
     ULTRA_EXPANDED: 200.0,
 }
 
-# Standard OpenType axis tags that must be set via named properties, not axes dict
-STANDARD_AXES = {"wght", "wdth", "ital", "slnt", "opsz"}
+# Standard OpenType axis tags that must be set via named properties, not axes dict.
+# Only axes with a corresponding Font named property belong here; slnt and opsz are
+# intentionally omitted so they can be passed through the custom axes dict until
+# Travertino gains dedicated properties for them.
+STANDARD_AXES = {"wght", "wdth", "ital"}
 
 ######################################################################
 # Font Size

@@ -4,7 +4,6 @@ from warnings import warn
 from toga.fonts import (
     _IMPL_CACHE,
     _REGISTERED_FONT_CACHE,
-    BOLD,
     ITALIC,
     OBLIQUE,
     SMALL_CAPS,
@@ -99,9 +98,32 @@ class Font:
         if self.interface.variant == SMALL_CAPS:
             font.set_variant(Pango.Variant.SMALL_CAPS)
 
-        # Set font weight
-        if self.interface.weight == BOLD:
-            font.set_weight(Pango.Weight.BOLD)
+        # Set font weight — Pango weight values map directly to CSS numeric weights
+        font.set_weight(int(self.interface.weight))
+
+        # Set font width/stretch — map CSS percentage to Pango.Stretch enum
+        width = float(self.interface.width)
+        PANGO_STRETCH_MAP = {
+            50.0: Pango.Stretch.ULTRA_CONDENSED,
+            62.5: Pango.Stretch.EXTRA_CONDENSED,
+            75.0: Pango.Stretch.CONDENSED,
+            87.5: Pango.Stretch.SEMI_CONDENSED,
+            100.0: Pango.Stretch.NORMAL,
+            112.5: Pango.Stretch.SEMI_EXPANDED,
+            125.0: Pango.Stretch.EXPANDED,
+            150.0: Pango.Stretch.EXTRA_EXPANDED,
+            200.0: Pango.Stretch.ULTRA_EXPANDED,
+        }
+        stretch = PANGO_STRETCH_MAP.get(width)
+        if stretch is not None:
+            font.set_stretch(stretch)
+
+        # Set font variation settings for custom axes
+        if self.interface.axes:
+            variations = ",".join(
+                f"{tag}={value}" for tag, value in self.interface.axes.items()
+            )
+            font.set_variations(variations)
 
         self.native = font
         _IMPL_CACHE[self.interface] = self

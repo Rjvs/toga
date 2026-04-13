@@ -89,11 +89,13 @@ class PackLogic(BaseStyle):
             self._applicator.set_hidden(value == HIDDEN)
 
         if names & {
+            "font_axes",
             "font_family",
             "font_size",
             "font_style",
             "font_variant",
             "font_weight",
+            "font_width",
         }:
             font = None
             font_kwargs = {
@@ -101,6 +103,8 @@ class PackLogic(BaseStyle):
                 "style": self.font_style,
                 "variant": self.font_variant,
                 "weight": self.font_weight,
+                "width": self.font_width,
+                "axes": self.font_axes,
             }
 
             for family in self.font_family:
@@ -209,10 +213,17 @@ class PackLogic(BaseStyle):
             css.append(f"font-size: {self.font_size}pt;")
         if self.font_weight != NORMAL:
             css.append(f"font-weight: {self.font_weight};")
+        if self.font_width != NORMAL:
+            css.append(f"font-width: {self.font_width};")
         if self.font_style != NORMAL:
             css.append(f"font-style: {self.font_style};")
         if self.font_variant != NORMAL:
             css.append(f"font-variant: {self.font_variant};")
+        if self.font_axes:
+            settings = ", ".join(
+                f'"{tag}" {val}' for tag, val in sorted(self.font_axes.items())
+            )
+            css.append(f"font-variation-settings: {settings};")
 
         return " ".join(css)
 

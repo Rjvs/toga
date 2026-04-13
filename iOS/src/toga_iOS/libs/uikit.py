@@ -277,6 +277,8 @@ UIFont = ObjCClass("UIFont")
 UIFont.declare_class_property("labelFontSize")
 UIFontDescriptorTraitItalic = 1 << 0
 UIFontDescriptorTraitBold = 1 << 1
+UIFontDescriptorTraitExpanded = 1 << 5
+UIFontDescriptorTraitCondensed = 1 << 6
 
 ######################################################################
 # UIGraphics.h

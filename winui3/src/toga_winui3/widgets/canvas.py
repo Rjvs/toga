@@ -520,7 +520,7 @@ class Context:
         self._subpath_starts = saved_subpath_starts
 
     def _text_draw(self, text, x, y, font, baseline, line_height):
-        lines = text.splitlines()
+        lines = text.split("\n")
         scaled_line_height = self.impl._line_height(font, line_height)
         total_height = scaled_line_height * len(lines)
 
@@ -704,15 +704,18 @@ class Canvas(Widget):
         fmt.FontWeight = font.native_weight
         fmt.FontStyle = font.native_style
 
+        lines = text.split("\n")
+        # A trailing newline produces an extra empty line visually,
+        # but we don't measure width for it.
         widths = []
-        for line in text.splitlines():
+        for line in lines:
             layout = CanvasTextLayout(
                 self.native, line, fmt, float("inf"), float("inf")
             )
             bounds = layout.LayoutBoundsIncludingTrailingWhitespace
             widths.append(bounds.Width)
 
-        num_lines = len(text.splitlines())
+        num_lines = len(lines)
         return (
             max(widths) if widths else 0,
             self._line_height(font, line_height) * num_lines,
@@ -770,9 +773,8 @@ class Canvas(Widget):
             InMemoryRandomAccessStream,
         )
 
-        image_id = id(image)
-        if image_id in self._bitmap_cache:
-            return self._bitmap_cache[image_id]
+        if image in self._bitmap_cache:
+            return self._bitmap_cache[image]
 
         data = image._impl.get_data()
         if not data:
@@ -786,7 +788,7 @@ class Canvas(Widget):
         stream.Seek(0)
 
         bitmap = CanvasBitmap.LoadAsync(resource_creator, stream).GetResults()
-        self._bitmap_cache[image_id] = bitmap
+        self._bitmap_cache[image] = bitmap
         return bitmap
 
     # ── Layout ───────────────────────────────────────────────────────

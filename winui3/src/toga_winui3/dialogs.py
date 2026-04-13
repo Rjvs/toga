@@ -6,7 +6,14 @@ class BaseDialog:
     def show(self, host_window, future):
         self.future = future
         # WinUI 3 dialogs are async-native, so we can use them directly.
-        asyncio.ensure_future(self._show_async(host_window))
+        asyncio.ensure_future(self._safe_show(host_window))
+
+    async def _safe_show(self, host_window):
+        try:
+            await self._show_async(host_window)
+        except Exception as e:
+            if not self.future.done():
+                self.future.set_exception(e)
 
     async def _show_async(self, host_window):
         raise NotImplementedError

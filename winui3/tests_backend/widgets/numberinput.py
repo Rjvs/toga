@@ -22,7 +22,7 @@ class NumberInputProbe(SimpleProbe):
 
     @property
     def readonly(self):
-        return not self.native.IsEnabled
+        return not self.native.IsHitTestVisible
 
     def clear_input(self):
         self.native.Value = float("nan")

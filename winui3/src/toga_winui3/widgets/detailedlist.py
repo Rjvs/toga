@@ -12,6 +12,7 @@ from win32more.Microsoft.UI.Xaml.Controls import (
 )
 from win32more.Microsoft.UI.Xaml.Media import Stretch
 
+import toga
 from toga.handlers import WeakrefCallable
 
 from .base import Widget
@@ -77,6 +78,7 @@ class DetailedList(Widget):
         row_panel.Padding = Thickness(0, 4, 0, 4)
 
         if icon is not None:
+            icon = toga.Icon(icon) if not isinstance(icon, toga.Icon) else icon
             img = Image()
             img.Source = icon._impl._as_bitmap_image()
             img.Width = 40

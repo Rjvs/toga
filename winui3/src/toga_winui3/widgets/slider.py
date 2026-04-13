@@ -42,12 +42,16 @@ class Slider(Widget):
 
     def set_tick_count(self, tick_count):
         total_range = self.native.Maximum - self.native.Minimum
-        if tick_count is not None:
+        if tick_count is not None and tick_count > 1:
             freq = total_range / (tick_count - 1)
             self.native.TickFrequency = freq
             # In discrete mode, step frequency matches tick frequency
             # so the slider snaps to tick positions.
             self.native.StepFrequency = freq
+        elif tick_count == 1:
+            # Single tick: the slider is locked to one position.
+            self.native.TickFrequency = total_range
+            self.native.StepFrequency = total_range
         else:
             self.native.TickFrequency = 0
             self.native.StepFrequency = CONTINUOUS_STEP

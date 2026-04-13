@@ -37,7 +37,10 @@ prek run --all-files
 uvx ruff check --fix
 uvx ruff format
 # Type check separately
-uvx ty check
+uv run ty check
+
+# Regenerate win32more type stubs (after updating win32more)
+uv run python tools/generate_win32more_stubs.py
 
 # Tests
 uv run pytest

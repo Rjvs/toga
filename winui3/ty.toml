@@ -1,0 +1,4 @@
+[environment]
+python-platform = "win32"
+python-version = "3.13"
+extra-paths = ["src", "../core/src", "stubs"]

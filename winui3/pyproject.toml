@@ -105,6 +105,10 @@ WebView = "toga_winui3.widgets.webview:WebView"
 MainWindow = "toga_winui3.window:MainWindow"
 Window = "toga_winui3.window:Window"
 
+[tool.uv.sources]
+toga-core = { path = "../core" }
+travertino = { path = "../travertino" }
+
 [tool.setuptools_scm]
 root = ".."
 

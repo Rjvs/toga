@@ -76,6 +76,9 @@ class Window(Container):
         self._activated_token = self.native.add_Activated(
             WeakrefCallable(self.winui3_activated)
         )
+        self._visibility_token = self.native.add_VisibilityChanged(
+            WeakrefCallable(self.winui3_visibility_changed)
+        )
 
     ######################################################################
     # Native event handlers
@@ -127,6 +130,12 @@ class Window(Container):
                 self.interface.on_hide()
             self._previous_state = current_state
 
+    def winui3_visibility_changed(self, sender, args):
+        if self.native.Visible:
+            self.interface.on_show()
+        else:
+            self.interface.on_hide()
+
     def winui3_activated(self, sender, args):
         from win32more.Microsoft.UI.Xaml import WindowActivationState
 
@@ -170,6 +179,9 @@ class Window(Container):
         if self._activated_token is not None:
             self.native.remove_Activated(self._activated_token)
             self._activated_token = None
+        if self._visibility_token is not None:
+            self.native.remove_VisibilityChanged(self._visibility_token)
+            self._visibility_token = None
         self.native.Close()
 
     def set_app(self, app):
@@ -182,7 +194,6 @@ class Window(Container):
         if self.interface.content is not None:
             self.interface.content.refresh()
         self.native.Activate()
-        self.interface.on_show()
 
     ######################################################################
     # Window content and resources

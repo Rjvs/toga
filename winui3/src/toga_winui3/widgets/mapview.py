@@ -128,7 +128,11 @@ class MapView(Widget):
         self.native.CoreWebView2.NavigateToString(MAPVIEW_HTML_CONTENT)
 
     def winui3_navigation_completed(self, sender, args):
-        # Page is loaded — replay the backlog of JS commands.
+        # NavigationCompleted can fire multiple times (e.g. for the initial
+        # about:blank page during EnsureCoreWebView2Async, then again for the
+        # Leaflet HTML).  Only replay the backlog once.
+        if self.backlog is None:
+            return
         for javascript in self.backlog:
             self.native.CoreWebView2.ExecuteScriptAsync(javascript)
         self.backlog = None

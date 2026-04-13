@@ -215,6 +215,9 @@ class Context:
         self.states.append(self.state.new_state(saved_transform))
 
     def restore(self):
+        if len(self.states) <= 1:
+            # Nothing to restore — the bottom state has no previous_state.
+            return
         popped = self.states.pop()
         self.native.Transform = popped.previous_state.to_native()
         self._transform_paths(popped.transform)
@@ -739,11 +742,23 @@ class Canvas(Widget):
     # ── Image data export ────────────────────────────────────────────
 
     def get_image_data(self):
-        width = max(1, int(self.native.ActualWidth))
-        height = max(1, int(self.native.ActualHeight))
+        # Use the window's DPI scale so HiDPI displays produce full-resolution
+        # images (matching the WinForms backend which captures at physical
+        # pixel resolution).
+        window = self.interface.window
+        if window and window._impl:
+            scale = window._impl._dpi_scale()
+        else:
+            scale = 1.0
+        dpi = 96 * scale
 
-        # Render to an offscreen CanvasRenderTarget
-        render_target = CanvasRenderTarget(self.native, width, height, 96)
+        dip_width = max(1, int(self.native.ActualWidth))
+        dip_height = max(1, int(self.native.ActualHeight))
+        px_width = max(1, int(dip_width * scale))
+        px_height = max(1, int(dip_height * scale))
+
+        # Render to an offscreen CanvasRenderTarget at physical resolution
+        render_target = CanvasRenderTarget(self.native, px_width, px_height, dpi)
         ds = render_target.CreateDrawingSession()
 
         # Clear with background color
@@ -761,7 +776,7 @@ class Canvas(Widget):
 
         # Extract pixel bytes and encode to PNG using Pillow
         pixel_bytes = bytes(render_target.GetPixelBytes())
-        img = PILImage.frombytes("RGBA", (width, height), pixel_bytes, "raw", "BGRA")
+        img = PILImage.frombytes("RGBA", (px_width, px_height), pixel_bytes, "raw", "BGRA")
 
         buffer = BytesIO()
         img.save(buffer, format="PNG")

@@ -216,7 +216,15 @@ class App:
     ######################################################################
 
     def get_dark_mode_state(self):
-        self.interface.factory.not_implemented("dark mode state")
+        from Microsoft.Win32 import Registry
+
+        key = Registry.CurrentUser.OpenSubKey(
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+        )
+        if key is not None:
+            value = key.GetValue("AppsUseLightTheme", 1)
+            key.Close()
+            return value == 0
         return None
 
     ######################################################################

@@ -33,6 +33,7 @@ class Font(LoggedObject):
                 self.interface.family == other.interface.family,
                 self.interface.size == other.interface.size,
                 self.interface.weight == other.interface.weight,
+                self.interface.width == other.interface.width,
                 self.interface.variant == other.interface.variant,
                 self.interface.style == other.interface.style,
                 self.interface.axes == other.interface.axes,

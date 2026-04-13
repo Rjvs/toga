@@ -1,5 +1,5 @@
 import os
-import urllib
+import urllib.parse
 
 from win32more.Microsoft.UI.Xaml.Controls import WebView2
 

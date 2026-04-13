@@ -757,8 +757,9 @@ class Canvas(Widget):
         px_width = max(1, int(dip_width * scale))
         px_height = max(1, int(dip_height * scale))
 
-        # Render to an offscreen CanvasRenderTarget at physical resolution
-        render_target = CanvasRenderTarget(self.native, px_width, px_height, dpi)
+        # Render to an offscreen CanvasRenderTarget; pass DIPs so Win2D scales
+        # internally by dpi/96 to produce the correct physical pixel buffer.
+        render_target = CanvasRenderTarget(self.native, dip_width, dip_height, dpi)
         ds = render_target.CreateDrawingSession()
 
         # Clear with background color

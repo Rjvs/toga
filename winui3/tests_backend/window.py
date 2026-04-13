@@ -40,7 +40,7 @@ class WindowProbe(BaseProbe, DialogsMixin):
         if state:
             timeout = 5
             polling_interval = 0.1
-            exception = None
+            exception: AssertionError | None = None
             loop = asyncio.get_running_loop()
             start_time = loop.time()
             while (loop.time() - start_time) < timeout:
@@ -51,7 +51,9 @@ class WindowProbe(BaseProbe, DialogsMixin):
                     exception = e
                     await asyncio.sleep(polling_interval)
                     continue
-            raise exception
+            if exception is not None:
+                raise exception
+            raise AssertionError(f"Window state did not reach {state}")
 
     async def cleanup(self):
         self.window.close()

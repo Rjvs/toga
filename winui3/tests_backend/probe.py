@@ -127,7 +127,7 @@ def _send_inputs(*inputs):
 class BaseProbe(FontMixin):
     fixed_height = None
 
-    def __init__(self, native=None):
+    def __init__(self, native):
         self.native = native
 
     async def redraw(self, message=None, delay=0, wait_for=None):

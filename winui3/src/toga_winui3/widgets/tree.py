@@ -60,7 +60,7 @@ class Tree(Widget):
 
         # Bidirectional map: id(toga_node) -> TreeViewNode
         self._node_map = {}
-        # Reverse map: id(TreeViewNode) -> toga_node
+        # Reverse map: TreeViewNode.value (COM ptr addr) -> toga_node
         self._reverse_map = {}
 
         self._build_header()
@@ -145,7 +145,7 @@ class Tree(Widget):
 
         # Register in maps.
         self._node_map[id(node)] = tree_node
-        self._reverse_map[id(tree_node)] = node
+        self._reverse_map[tree_node.value] = node
 
         # Recursively add children if this node can have them.
         if node.can_have_children():
@@ -158,14 +158,14 @@ class Tree(Widget):
         """Remove a node (and its descendants) from the maps."""
         native = self._node_map.pop(id(node), None)
         if native is not None:
-            self._reverse_map.pop(id(native), None)
+            self._reverse_map.pop(native.value, None)
         if node.can_have_children():
             for child in node:
                 self._unregister_node(child)
 
     def _toga_node_from_native(self, tree_view_node):
         """Look up the toga Node for a native TreeViewNode."""
-        return self._reverse_map.get(id(tree_view_node))
+        return self._reverse_map.get(tree_view_node.value)
 
     ######################################################################
     # Source notifications
@@ -342,7 +342,7 @@ class Tree(Widget):
     def _rebuild_all_content(self):
         """Rebuild all node content grids after column changes."""
         for _toga_id, native_node in self._node_map.items():
-            toga_node = self._reverse_map.get(id(native_node))
+            toga_node = self._reverse_map.get(native_node.value)
             if toga_node:
                 native_node.Content = self._build_row_content(toga_node)
 

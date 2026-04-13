@@ -207,10 +207,7 @@ class Window(Container):
         if self.interface.content:
             layout = self.interface.content.layout
             scale = self._dpi_scale()
-            app_window = self.native.AppWindow
-            # Decoration sizes in physical pixels (title bar + borders).
-            decor_w = app_window.Size.Width - int(self.native.Bounds.Width * scale)
-            decor_h = app_window.Size.Height - int(self.native.Bounds.Height * scale)
+            decor_w, decor_h = self._decoration_size()
             top_bars = self._top_bars_height()
             # min_width/min_height are in DIPs; convert to physical and add decor.
             self._min_window_size = (
@@ -236,6 +233,20 @@ class Window(Container):
         """Return the DPI scale factor for this window's current screen."""
         return self.get_current_screen()._scale_factor
 
+    def _decoration_size(self):
+        """Return (decor_w, decor_h) in physical pixels.
+
+        Returns (0, 0) when Bounds is zero (window not yet laid out).
+        """
+        bounds = self.native.Bounds
+        if bounds.Width == 0 and bounds.Height == 0:
+            return 0, 0
+        scale = self._dpi_scale()
+        app_window = self.native.AppWindow
+        decor_w = app_window.Size.Width - int(bounds.Width * scale)
+        decor_h = app_window.Size.Height - int(bounds.Height * scale)
+        return decor_w, decor_h
+
     def get_size(self) -> Size:
         """Return the content area size in CSS pixels (DIPs).
 
@@ -258,11 +269,7 @@ class Window(Container):
 
         scale = self._dpi_scale()
         app_window = self.native.AppWindow
-
-        # Compute decoration size in physical pixels.
-        bounds = self.native.Bounds
-        decor_w = app_window.Size.Width - int(bounds.Width * scale)
-        decor_h = app_window.Size.Height - int(bounds.Height * scale)
+        decor_w, decor_h = self._decoration_size()
 
         native_size = SizeInt32()
         native_size.Width = int(size[0] * scale) + decor_w
@@ -419,16 +426,10 @@ class Window(Container):
         from .libs.screenshot import capture_rect
 
         app_window = self.native.AppWindow
-        # Get the window position and content area size.
         pos = app_window.Position
         bounds = self.native.Bounds
-        # Bounds gives the content area dimensions; position is the
-        # outer window position. The title bar offset means the content
-        # starts below the title bar. Approximate title bar height from
-        # the difference between window size and content bounds.
         scale = self._dpi_scale()
-        win_size = app_window.Size
-        title_bar_height = win_size.Height - int(bounds.Height * scale)
+        _, title_bar_height = self._decoration_size()
         x = pos.X
         y = pos.Y + title_bar_height
         w = int(bounds.Width * scale)

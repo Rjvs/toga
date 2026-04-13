@@ -235,15 +235,17 @@ class Table(Widget):
             return
 
         if getattr(self.interface, "multiple_select", False):
-            # Clear current selection, then select each index.
-            while self._list_view.SelectedItems.Size > 0:
-                self._list_view.SelectedItems.RemoveAtEnd()
+            from win32more.Microsoft.UI.Xaml.Data import ItemIndexRange
+
+            # Clear current selection using the documented API.
+            total = self._list_view.Items.Size
+            if total > 0:
+                self._list_view.DeselectRange(ItemIndexRange(0, total))
             if not isinstance(selection, list):
                 selection = [selection]
             for idx in selection:
                 if 0 <= idx < self._list_view.Items.Size:
-                    item = self._list_view.Items.GetAt(idx)
-                    self._list_view.SelectedItems.Append(item)
+                    self._list_view.SelectRange(ItemIndexRange(idx, 1))
         else:
             self._list_view.SelectedIndex = (
                 selection if isinstance(selection, int) else -1

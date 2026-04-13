@@ -269,7 +269,10 @@ class Context:
         start = self._subpath_starts[-1]
         if start is not None and self._current_subpath:
             sx, sy = start
-            self._current_subpath.append((_LINE, sx, sy))
+            # Don't add an explicit _LINE to start — EndFigure(Closed) in
+            # _build_geometry handles the closing segment automatically.
+            # Adding both causes a redundant zero-length segment that
+            # disrupts dash-pattern rendering.
             self._current_subpath.append((_CLOSE,))
             # Start a new subpath at the start of the closed one
             self._new_subpath((sx, sy))

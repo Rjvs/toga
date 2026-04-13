@@ -4,6 +4,7 @@ from win32more.winui3 import XamlApplication
 
 from toga.dialogs import InfoDialog
 
+from .libs.proactor import WinUI3ProactorEventLoop
 from .screens import Screen as ScreenImpl
 
 
@@ -28,12 +29,17 @@ class App:
         # Active window tracking (set by Window._on_activated)
         self._active_window = None
 
-        self.loop = asyncio.new_event_loop()
+        # Store the XamlApplication subclass for the proactor to start.
+        self._winui3_app_class = _WinUI3App
+
+        self.loop = WinUI3ProactorEventLoop()
         asyncio.set_event_loop(self.loop)
 
     def create(self):
         self.native = _WinUI3App._instance
-        # Populate the main window as soon as the event loop is running.
+        # Start the asyncio tick timer now that the UI thread is ready.
+        self.loop.start_ticking()
+        # Populate the main window as soon as the event loop processes.
         self.loop.call_soon(self.interface._startup)
 
     ######################################################################
@@ -62,7 +68,8 @@ class App:
     def main_loop(self):
         # Store a reference to this App impl so _WinUI3App can find it.
         _WinUI3App._app_impl = self
-        XamlApplication.Start(_WinUI3App)
+        # run_forever sets up asyncio as running, then starts the XAML app.
+        self.loop.run_forever(self)
 
     def set_icon(self, icon):
         # Set the icon on all existing windows.

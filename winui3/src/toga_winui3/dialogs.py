@@ -234,6 +234,8 @@ class SaveFileDialog(BaseDialog):
             return
 
         picker = FileSavePicker(window_id)
+        if self.title:
+            picker.CommitButtonText = self.title
         if self.initial_directory:
             picker.SuggestedFolder = str(self.initial_directory)
         if self.filename:
@@ -266,6 +268,8 @@ class OpenFileDialog(BaseDialog):
             return
 
         picker = FileOpenPicker(window_id)
+        if self.title:
+            picker.CommitButtonText = self.title
         if self.initial_directory:
             picker.SuggestedFolder = str(self.initial_directory)
         for ext in _build_file_type_filter(self.file_types):
@@ -303,6 +307,8 @@ class SelectFolderDialog(BaseDialog):
             return
 
         picker = FolderPicker(window_id)
+        if self.title:
+            picker.CommitButtonText = self.title
         if self.initial_directory:
             picker.SuggestedFolder = str(self.initial_directory)
         picker.FileTypeFilter.Append("*")

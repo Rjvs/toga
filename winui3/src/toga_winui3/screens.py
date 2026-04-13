@@ -106,8 +106,10 @@ class Screen:
         # Fallback: first screen.
         if cls._all_screens:
             return cls._all_screens[0]
-        # Emergency fallback if enumeration failed.
-        return cls(None, "DISPLAY1", Position(0, 0), Size(1920, 1080), 1.0)
+        raise RuntimeError(
+            "No screens found: EnumDisplayMonitors returned no monitors. "
+            "This may indicate a headless environment or a Win32 API failure."
+        )
 
     @classmethod
     def all_screens(cls):

@@ -46,7 +46,7 @@ class Window(Container):
 
         self._in_presentation_mode = False
         self._previous_state = WindowState.NORMAL
-        self._cached_window_size = None
+        self._cached_window_size = Size(int(size[0]), int(size[1]))
         self._min_window_size = None  # (width, height) in native pixels, or None
 
         # Enforce resizable/minimizable constraints via the OverlappedPresenter.

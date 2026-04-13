@@ -56,7 +56,7 @@ class MultilineTextInputProbe(SimpleProbe):
 
     @property
     def redo_available(self):
-        return False
+        return True
 
     def set_cursor_at_end(self):
         self.native.SelectionStart = len(self.native.Text)

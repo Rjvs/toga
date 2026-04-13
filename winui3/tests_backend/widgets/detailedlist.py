@@ -53,5 +53,4 @@ class DetailedListProbe(SimpleProbe):
 
     async def activate_row(self, row):
         await self.select_row(row)
-        if hasattr(self.impl, "_on_double_tapped"):
-            self.impl._on_double_tapped(self.native, None)
+        self.impl.winui3_double_tapped(self.native, None)

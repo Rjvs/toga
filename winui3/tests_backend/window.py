@@ -1,7 +1,7 @@
 import asyncio
 
 from win32more.Microsoft.UI.Xaml import Window as WinUIWindow
-from win32more.Microsoft.UI.Xaml.Controls import AppBarSeparator
+from win32more.Microsoft.UI.Xaml.Controls import AppBarSeparator, ToolTipService
 
 from toga import Size
 from toga.constants import WindowState
@@ -134,10 +134,9 @@ class WindowProbe(BaseProbe, DialogsMixin):
     def assert_toolbar_item(self, index, label, tooltip, has_icon, enabled):
         item = self._native_toolbar_item(index)
         assert item.Label == label
-        # WinUI 3 AppBarButton uses Label for both display text and tooltip
-        # when a separate ToolTipText is not set.
         if tooltip:
-            assert item.Label == tooltip
+            actual_tooltip = ToolTipService.GetToolTip(item)
+            assert actual_tooltip == tooltip
         assert (item.Icon is not None) == has_icon
         assert item.IsEnabled == enabled
 

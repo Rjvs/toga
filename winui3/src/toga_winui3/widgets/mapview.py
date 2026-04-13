@@ -1,4 +1,5 @@
 import asyncio
+import html
 import json
 
 from toga.handlers import WeakrefCallable
@@ -69,10 +70,12 @@ def latlng(location):
 
 def popup(pin):
     "Rendering utility; output the content of the pin popup"
+    title = html.escape(str(pin.title))
     if pin.subtitle:
-        return f"<b>{pin.title}</b><br>{pin.subtitle}"
+        subtitle = html.escape(str(pin.subtitle))
+        return f"<b>{title}</b><br>{subtitle}"
     else:
-        return f"<b>{pin.title}</b>"
+        return f"<b>{title}</b>"
 
 
 class MapView(Widget):
@@ -171,15 +174,17 @@ class MapView(Widget):
     ######################################################################
 
     def add_pin(self, pin):
+        content = json.dumps(popup(pin))
         self._invoke(
             f'pins["{pin_id(pin)}"] = L.marker({latlng(pin.location)}).addTo(map)'
-            f'.bindPopup("{popup(pin)}");'
+            f".bindPopup({content});"
         )
 
     def update_pin(self, pin):
+        content = json.dumps(popup(pin))
         self._invoke(
             f'pins["{pin_id(pin)}"].setLatLng({latlng(pin.location)})'
-            f'.setPopupContent("{popup(pin)}");'
+            f".setPopupContent({content});"
         )
 
     def remove_pin(self, pin):

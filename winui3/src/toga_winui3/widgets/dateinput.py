@@ -18,9 +18,11 @@ _TICKS_PER_DAY = _TICKS_PER_SECOND * 86400
 def _py_date(native_dt):
     """Convert a WinRT DateTime to a Python date."""
     ticks = native_dt.UniversalTime
-    # Convert to Unix timestamp (seconds since 1970-01-01).
-    unix_seconds = (ticks - _EPOCH_OFFSET_TICKS) / _TICKS_PER_SECOND
-    return datetime.date.fromtimestamp(unix_seconds)
+    # Convert ticks back to days since the WinRT epoch (1601-01-01) and
+    # construct the date directly, avoiding timezone-dependent fromtimestamp().
+    epoch = datetime.date(1601, 1, 1)
+    days = ticks // _TICKS_PER_DAY
+    return epoch + datetime.timedelta(days=days)
 
 
 def _native_date(py_date):

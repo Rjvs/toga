@@ -50,14 +50,17 @@ class _NOTIFYICONDATAW(ctypes.Structure):
 
 # Keep references alive to prevent GC of callback
 _subclass_installed = False
+LRESULT = ctypes.c_ssize_t
+UINT_PTR = ctypes.c_size_t
+DWORD_PTR = ctypes.c_size_t
 _SUBCLASSPROC = ctypes.WINFUNCTYPE(
-    ctypes.c_long,  # LRESULT
+    LRESULT,
     wintypes.HWND,
     wintypes.UINT,
     wintypes.WPARAM,
     wintypes.LPARAM,
-    ctypes.POINTER(wintypes.UINT),  # uIdSubclass
-    ctypes.POINTER(wintypes.DWORD),  # dwRefData
+    UINT_PTR,  # uIdSubclass
+    DWORD_PTR,  # dwRefData
 )
 _subclass_callback_ref = None
 

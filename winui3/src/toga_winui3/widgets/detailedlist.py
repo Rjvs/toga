@@ -22,6 +22,7 @@ class DetailedList(Widget):
         self.native = ListView()
         self.native.SelectionMode = ListViewSelectionMode.Single
         self.native.add_SelectionChanged(WeakrefCallable(self.winui3_selection_changed))
+        self.native.add_DoubleTapped(WeakrefCallable(self.winui3_double_tapped))
 
         # Context menu for primary/secondary actions.
         self._flyout = MenuFlyout()
@@ -159,6 +160,11 @@ class DetailedList(Widget):
 
     def winui3_selection_changed(self, sender, args):
         self.interface.on_select()
+
+    def winui3_double_tapped(self, sender, args):
+        index = self.native.SelectedIndex
+        if index >= 0:
+            self.interface.on_activate(row=self.interface.data[index])
 
     def get_selection(self):
         index = self.native.SelectedIndex

@@ -549,9 +549,8 @@ class MainWindow(Window):
                     # Insert separator between different groups.
                     if prev_group is not None and prev_group != cmd.group:
                         self.toolbar_native.PrimaryCommands.Append(AppBarSeparator())
-                        prev_group = None
-                    else:
-                        prev_group = cmd.group
+
+                    prev_group = cmd.group
 
                     btn = AppBarButton()
                     btn.Label = cmd.text

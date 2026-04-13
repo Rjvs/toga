@@ -54,6 +54,26 @@ class FontApp(toga.App):
         toga.Font.register(
             "Roboto", "resources/Roboto-BoldItalic.ttf", weight=BOLD, style=ITALIC
         )
+        toga.Font.register(
+            "Recursive",
+            "resources/Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
+        )
+        toga.Font.register(
+            "Recursive",
+            "resources/Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
+            weight=BOLD,
+        )
+        toga.Font.register(
+            "Recursive",
+            "resources/Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
+            style=ITALIC,
+        )
+        toga.Font.register(
+            "Recursive",
+            "resources/Recursive[CASL,CRSV,MONO,slnt,wght].ttf",
+            weight=BOLD,
+            style=ITALIC,
+        )
 
         button_style = {
             "font_family": "awesome-free-solid",
@@ -147,6 +167,44 @@ class FontApp(toga.App):
             font_weight=BOLD,
             font_style=ITALIC,
         )
+        lbl_r = toga.Label("Recursive", font_family="Recursive", font_size=14)
+        lbl_rb = toga.Label(
+            "Recursive bold",
+            font_family="Recursive",
+            font_size=14,
+            font_weight=BOLD,
+        )
+        lbl_ri = toga.Label(
+            "Recursive italic",
+            font_family="Recursive",
+            font_size=14,
+            font_style=ITALIC,
+        )
+        lbl_rbi = toga.Label(
+            "Recursive bold italic",
+            font_family="Recursive",
+            font_size=14,
+            font_weight=BOLD,
+            font_style=ITALIC,
+        )
+        lbl_casl0 = toga.Label(
+            "Recursive CASL=0 (linear)",
+            font_family="Recursive",
+            font_size=14,
+            font_axes={"CASL": 0},
+        )
+        lbl_casl05 = toga.Label(
+            "Recursive CASL=0.5 (half casual)",
+            font_family="Recursive",
+            font_size=14,
+            font_axes={"CASL": 0.5},
+        )
+        lbl_casl1 = toga.Label(
+            "Recursive CASL=1 (full casual)",
+            font_family="Recursive",
+            font_size=14,
+            font_axes={"CASL": 1},
+        )
 
         unknown_style = {"font_family": "Unknown", "font_size": 14}
         lbl_u = toga.Label("Unknown", **unknown_style)
@@ -178,6 +236,13 @@ class FontApp(toga.App):
                 lbl6,
                 lbl7,
                 lbl8,
+                lbl_r,
+                lbl_rb,
+                lbl_ri,
+                lbl_rbi,
+                lbl_casl0,
+                lbl_casl05,
+                lbl_casl1,
                 lbl_u,
                 lbl_ub,
                 lbl_ui,

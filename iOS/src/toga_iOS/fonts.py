@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
+from rubicon.objc import ObjCClass, ObjCInstance
 
 from toga.fonts import (
     _IMPL_CACHE,
@@ -21,9 +22,70 @@ from toga_iOS.libs import (
     NSURL,
     UIFont,
     UIFontDescriptorTraitBold,
+    UIFontDescriptorTraitCondensed,
+    UIFontDescriptorTraitExpanded,
     UIFontDescriptorTraitItalic,
 )
-from toga_iOS.libs.core_text import core_text, kCTFontManagerScopeProcess
+from toga_iOS.libs.core_text import (
+    core_text,
+    kCTFontManagerScopeProcess,
+    kCTFontVariationAttribute,
+)
+
+NSMutableDictionary = ObjCClass("NSMutableDictionary")
+NSNumber = ObjCClass("NSNumber")
+
+# CSS font-weight (1-1000) to Apple font weight (~-1.0 to 1.0) mapping.
+# Anchor points from Apple's UIFontWeight constants.
+_APPLE_WEIGHT_ANCHORS = [
+    (1, -1.0),
+    (100, -0.80),  # UltraLight
+    (200, -0.60),  # Thin
+    (300, -0.40),  # Light
+    (400, 0.00),  # Regular
+    (500, 0.23),  # Medium
+    (600, 0.30),  # Semibold
+    (700, 0.40),  # Bold
+    (800, 0.56),  # Heavy
+    (900, 0.62),  # Black
+    (1000, 1.00),
+]
+
+
+def _css_weight_to_apple(css_weight):
+    """Map CSS font-weight (1-1000) to Apple font weight (~-1.0 to 1.0)
+    using piecewise linear interpolation between known anchor points."""
+    css_weight = int(css_weight)
+    for i in range(1, len(_APPLE_WEIGHT_ANCHORS)):
+        css_hi, apple_hi = _APPLE_WEIGHT_ANCHORS[i]
+        if css_weight <= css_hi:
+            css_lo, apple_lo = _APPLE_WEIGHT_ANCHORS[i - 1]
+            t = (css_weight - css_lo) / (css_hi - css_lo)
+            return apple_lo + t * (apple_hi - apple_lo)
+    return _APPLE_WEIGHT_ANCHORS[-1][1]
+
+
+def _tag_to_fourcc(tag):
+    """Convert a 4-character OpenType tag to its integer FourCharCode."""
+    return (ord(tag[0]) << 24) | (ord(tag[1]) << 16) | (ord(tag[2]) << 8) | ord(tag[3])
+
+
+def _apply_core_text_variations(font, axes):
+    """Apply custom OpenType variation axes to a font via CoreText."""
+    variation = NSMutableDictionary.alloc().init()
+    for tag, value in axes.items():
+        key = NSNumber.numberWithInt(_tag_to_fourcc(tag))
+        val = NSNumber.numberWithDouble(float(value))
+        variation.setObject(val, forKey=key)
+
+    attrs = NSMutableDictionary.alloc().init()
+    attrs.setObject(variation, forKey=kCTFontVariationAttribute)
+
+    descriptor = ObjCInstance(core_text.CTFontDescriptorCreateWithAttributes(attrs))
+    return ObjCInstance(
+        core_text.CTFontCreateCopyWithAttributes(font, 0.0, None, descriptor)
+    )
+
 
 _CUSTOM_FONT_NAMES = {}
 
@@ -115,26 +177,52 @@ class Font:
             # (https://developer.apple.com/library/archive/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html).
             size = self.interface.size * 96 / 72
 
-        # Construct the UIFont
+        # Construct the UIFont with the best weight support available.
+        # System font supports fine-grained numeric weight via systemFontOfSize:weight:.
         if font_name == SYSTEM:
-            font = UIFont.systemFontOfSize(size)
+            apple_weight = _css_weight_to_apple(self.interface.weight)
+            font = UIFont.systemFontOfSize(size, weight=apple_weight)
+            has_numeric_weight = True
         else:
             font = UIFont.fontWithName(font_name, size=size)
+            has_numeric_weight = False
 
-        # Convert the base font definition into a font with all the desired traits.
+        # Apply weight and style traits.
         traits = 0
-        if self.interface.weight >= 600:
+        # Only use Bold trait when numeric weight wasn't already applied
+        if not has_numeric_weight and self.interface.weight >= 600:
             traits |= UIFontDescriptorTraitBold
         if self.interface.style in {ITALIC, OBLIQUE}:
             traits |= UIFontDescriptorTraitItalic
 
         if traits:
             # If there is no font with the requested traits, this returns None.
-            font_with_traits = UIFont.fontWithDescriptor(
-                font.fontDescriptor.fontDescriptorWithSymbolicTraits(traits),
-                size=size,
+            descriptor = font.fontDescriptor.fontDescriptorWithSymbolicTraits(traits)
+            if descriptor is not None:
+                font_with_traits = UIFont.fontWithDescriptor(descriptor, size=size)
+                font = font_with_traits or font
+
+        # Apply width traits separately to avoid all-or-nothing trait failure.
+        width = float(self.interface.width)
+        width_trait = 0
+        if width < 100:
+            width_trait = UIFontDescriptorTraitCondensed
+        elif width > 100:
+            width_trait = UIFontDescriptorTraitExpanded
+
+        if width_trait:
+            # Combine with existing symbolic traits to preserve weight/style
+            current_traits = font.fontDescriptor.symbolicTraits
+            descriptor = font.fontDescriptor.fontDescriptorWithSymbolicTraits(
+                current_traits | width_trait
             )
-            font = font_with_traits or font
+            if descriptor is not None:
+                font_with_width = UIFont.fontWithDescriptor(descriptor, size=size)
+                font = font_with_width or font
+
+        # Apply custom OpenType variation axes via CoreText
+        if self.interface.axes:
+            font = _apply_core_text_variations(font, self.interface.axes)
 
         self.native = font
         _IMPL_CACHE[self.interface] = self

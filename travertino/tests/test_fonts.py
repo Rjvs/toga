@@ -290,9 +290,7 @@ class TestNumericWeight:
 
     def test_numeric_weight_equality(self):
         """Fonts with equivalent weights are equal."""
-        assert Font("Recursive", 16, weight=700) == Font(
-            "Recursive", 16, weight=BOLD
-        )
+        assert Font("Recursive", 16, weight=700) == Font("Recursive", 16, weight=BOLD)
 
     def test_helper_methods_preserve_weight(self):
         f = Font("Recursive", 16, weight=350)

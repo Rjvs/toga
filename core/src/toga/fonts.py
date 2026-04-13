@@ -23,15 +23,11 @@ from travertino.constants import (
     SEMI_EXPANDED,
     SERIF,
     SMALL_CAPS,
-    STANDARD_AXES,
     SYSTEM,
     ULTRA_CONDENSED,
     ULTRA_EXPANDED,
-    WEIGHT_KEYWORDS,
-    WIDTH_KEYWORDS,
 )
-from travertino.fonts import Font as BaseFont
-from travertino.fonts import FontWeight, FontWidth
+from travertino.fonts import Font as BaseFont, FontWeight, FontWidth
 
 import toga
 from toga.platform import get_factory

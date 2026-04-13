@@ -8,7 +8,6 @@ from toga.fonts import (
     BOLD,
     CURSIVE,
     FANTASY,
-    FontWeight,
     ITALIC,
     MESSAGE,
     MONOSPACE,

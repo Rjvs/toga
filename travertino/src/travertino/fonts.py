@@ -4,7 +4,6 @@ from .constants import (
     EXPANDED,
     FONT_STYLES,
     FONT_VARIANTS,
-    FONT_WEIGHTS,
     ITALIC,
     NORMAL,
     OBLIQUE,
@@ -79,9 +78,7 @@ class FontWidth(float):
 
         numeric = float.__new__(cls, value)
         if not (0 < numeric <= 1000):
-            raise ValueError(
-                f"Font width must be a positive percentage, got {value!r}"
-            )
+            raise ValueError(f"Font width must be a positive percentage, got {value!r}")
         return numeric
 
     def __eq__(self, other):
@@ -114,9 +111,7 @@ def _normalize_axes(axes):
 
     for tag in axes:
         if not isinstance(tag, str) or len(tag) != 4:
-            raise ValueError(
-                f"Axis tag {tag!r} must be a 4-character string"
-            )
+            raise ValueError(f"Axis tag {tag!r} must be a 4-character string")
         if tag in STANDARD_AXES:
             raise ValueError(
                 f"Standard axis {tag!r} cannot be set via axes dict; "

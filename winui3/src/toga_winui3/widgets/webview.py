@@ -214,7 +214,7 @@ class WebView(Widget):
                 )
             result.set_result(cookie_jar)
 
-        asyncio.ensure_future(_get())
+        self.run_after_initialization(lambda: asyncio.ensure_future(_get()))
         return result
 
     ######################################################################

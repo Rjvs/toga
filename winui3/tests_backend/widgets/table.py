@@ -99,8 +99,8 @@ class TableProbe(SimpleProbe):
     async def activate_row(self, row):
         await self.select_row(row)
         # Trigger double-tap handler if available.
-        if hasattr(self.impl, "_on_double_tapped"):
-            self.impl._on_double_tapped(self.impl._list_view, None)
+        if hasattr(self.impl, "winui3_double_tapped"):
+            self.impl.winui3_double_tapped(self.impl._list_view, None)
 
     async def select_first_row_keyboard(self):
         await self.type_character(" ")

@@ -220,13 +220,10 @@ class Table(Widget):
             result = []
             selected = self._list_view.SelectedItems
             items = self._list_view.Items
-            # Build a set of selected item ids for fast lookup.
-            selected_ids = set()
             for i in range(selected.Size):
-                selected_ids.add(id(selected.GetAt(i)))
-            for i in range(items.Size):
-                if id(items.GetAt(i)) in selected_ids:
-                    result.append(i)
+                found, index = items.IndexOf(selected.GetAt(i))
+                if found:
+                    result.append(index)
             return result
         else:
             index = self._list_view.SelectedIndex

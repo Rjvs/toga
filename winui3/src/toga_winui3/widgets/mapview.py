@@ -92,6 +92,7 @@ class MapView(Widget):
         # Two-phase startup: WebView2 init → Leaflet HTML load.
         # Commands are queued in the backlog until the page is ready.
         self.backlog = []
+        self._init_failed = False
 
         # Cache location and zoom so getters don't need synchronous JS eval.
         self._location = LatLng(0.0, 0.0)
@@ -111,7 +112,7 @@ class MapView(Widget):
                 "MapView requires WebView2 to function.",
                 stacklevel=2,
             )
-            self.backlog = None
+            self._init_failed = True
             return
 
         settings = self.native.CoreWebView2.Settings
@@ -147,6 +148,8 @@ class MapView(Widget):
             self._zoom = message["zoom"]
 
     def _invoke(self, javascript):
+        if self._init_failed:
+            return
         if self.backlog is not None:
             self.backlog.append(javascript)
         else:

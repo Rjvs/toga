@@ -16,10 +16,14 @@ class PasswordInput(Widget):
         self.native.add_LostFocus(WeakrefCallable(self.winui3_lost_focus))
 
     def get_readonly(self):
-        return self.native.IsReadOnly
+        # PasswordBox has no IsReadOnly property. We use IsHitTestVisible +
+        # IsTabStop to block interaction without graying out the control,
+        # preserving the Toga contract of "non-editable but visually active".
+        return not self.native.IsHitTestVisible
 
     def set_readonly(self, value):
-        self.native.IsReadOnly = value
+        self.native.IsHitTestVisible = not value
+        self.native.IsTabStop = not value
 
     def get_placeholder(self):
         return self.native.PlaceholderText

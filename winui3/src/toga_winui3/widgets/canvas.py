@@ -425,10 +425,12 @@ class Context:
         geometry = self._build_geometry()
         brush = CanvasSolidColorBrush(self.native, self.state.stroke_color)
         if self.state.line_dash:
-            style = CanvasStrokeStyle()
             lw = self.state.line_width
+            if lw == 0:
+                return
+            style = CanvasStrokeStyle()
             style.CustomDashStyle = [d / lw for d in self.state.line_dash]
-            self.native.DrawGeometry(geometry, brush, self.state.line_width, style)
+            self.native.DrawGeometry(geometry, brush, lw, style)
         else:
             self.native.DrawGeometry(geometry, brush, self.state.line_width)
 

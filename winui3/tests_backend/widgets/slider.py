@@ -29,9 +29,9 @@ class SliderProbe(SimpleProbe):
         return self.native.Maximum
 
     async def press(self):
-        if hasattr(self.impl, "_on_pointer_pressed"):
-            self.impl._on_pointer_pressed(self.native, None)
+        if hasattr(self.impl, "winui3_pointer_pressed"):
+            self.impl.winui3_pointer_pressed(self.native, None)
 
     async def release(self):
-        if hasattr(self.impl, "_on_pointer_released"):
-            self.impl._on_pointer_released(self.native, None)
+        if hasattr(self.impl, "winui3_pointer_released"):
+            self.impl.winui3_pointer_released(self.native, None)

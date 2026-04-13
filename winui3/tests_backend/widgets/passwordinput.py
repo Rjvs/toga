@@ -26,4 +26,4 @@ class PasswordInputProbe(SimpleProbe):
 
     @property
     def readonly(self):
-        return not self.native.IsEnabled
+        return not self.native.IsHitTestVisible

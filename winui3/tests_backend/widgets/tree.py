@@ -98,8 +98,8 @@ class TreeProbe(SimpleProbe):
 
     async def activate_row(self, row_path):
         await self.select_row(row_path)
-        if hasattr(self.impl, "_on_item_invoked"):
-            self.impl._on_item_invoked(self.impl._tree_view, None)
+        if hasattr(self.impl, "winui3_item_invoked"):
+            self.impl.winui3_item_invoked(self.impl._tree_view, None)
 
     @property
     def header_visible(self):

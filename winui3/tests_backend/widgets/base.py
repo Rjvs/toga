@@ -102,10 +102,10 @@ class SimpleProbe(BaseProbe):
 
     async def press(self):
         # WinUI 3 controls don't expose OnClick directly; invoke the impl handler.
-        if hasattr(self.impl, "_on_click"):
-            self.impl._on_click(self.native, None)
-        elif hasattr(self.impl, "_on_press"):
-            self.impl._on_press(self.native, None)
+        if hasattr(self.impl, "winui3_click"):
+            self.impl.winui3_click(self.native, None)
+        elif hasattr(self.impl, "winui3_press"):
+            self.impl.winui3_press(self.native, None)
 
     @property
     def is_hidden(self):

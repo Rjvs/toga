@@ -43,14 +43,57 @@ from toga.fonts import (
     FONT_STYLES,
     FONT_VARIANTS,
     FONT_WEIGHTS,
+    FONT_WIDTHS,
     SYSTEM_DEFAULT_FONT_SIZE,
     SYSTEM_DEFAULT_FONTS,
+    FontWeight,
+    FontWidth,
 )
 
 from .compat import _alignment_property
 from .layout import PackLogic
 
 NOT_PROVIDED = object()
+
+
+class font_weight_property(validated_property):
+    """A validated property that normalizes font weight to FontWeight.
+
+    Accepts keyword strings ("normal", "bold") and integers (1-1000),
+    always normalizing to a FontWeight instance.
+    """
+
+    def __init__(self):
+        super().__init__(*FONT_WEIGHTS, integer=True, initial=FontWeight(NORMAL))
+
+    def validate(self, value):
+        try:
+            return FontWeight(value)
+        except (ValueError, TypeError) as error:
+            raise ValueError(
+                f"Invalid value {value!r} for property{self._name_if_set}; "
+                f"Valid values are: {self.choices}"
+            ) from error
+
+class font_width_property(validated_property):
+    """A validated property that normalizes font width to FontWidth.
+
+    Accepts keyword strings ("normal", "condensed", "expanded", etc.) and
+    numeric percentages, always normalizing to a FontWidth instance.
+    """
+
+    def __init__(self):
+        super().__init__(*FONT_WIDTHS, number=True, initial=FontWidth(NORMAL))
+
+    def validate(self, value):
+        try:
+            return FontWidth(value)
+        except (ValueError, TypeError) as error:
+            raise ValueError(
+                f"Invalid value {value!r} for property{self._name_if_set}; "
+                f"Valid values are: {self.choices}"
+            ) from error
+
 
 PACK = "pack"
 
@@ -298,12 +341,20 @@ class Pack(PackLogic):
     **Note:** Windows and Android do not support the small caps variant. A request for a
     `"small_caps"` font will be interpreted as `"normal"`.
     """
-    font_weight: str = validated_property(*FONT_WEIGHTS, initial=NORMAL)
+    font_weight: str | int = font_weight_property()
     """The weight of the font to be used.
 
-    **Allowed values:** `"normal"` or `"bold"`
+    **Allowed values:** `"normal"`` (400), ``"bold"`` (700), or an integer from 1 to 1000.
 
-    **Default value:** `"normal"`
+    **Default value:** `"normal"` (400)
+    """
+    font_width: str | int | float = font_width_property()
+    """The width of the font to be used (CSS ``font-width`` / ``font-stretch``).
+
+    **Allowed values:** ``"normal"`` (100%), ``"condensed"`` (75%),
+    ``"expanded"`` (125%), other CSS width keywords, or a numeric percentage.
+
+    **Default value:** ``"normal"`` (100%)
     """
     font_size: int = validated_property(integer=True, initial=SYSTEM_DEFAULT_FONT_SIZE)
     """The size of the font to be used, in [CSS points][css-units].
@@ -318,8 +369,9 @@ class Pack(PackLogic):
         | tuple[str, int, list[str] | str]
         | tuple[str, str, int, list[str] | str]
         | tuple[str, str, str, int, list[str] | str]
+        | tuple[str, str, str, str | int | float, int, list[str] | str]
     ) = composite_property(
-        optional=("font_style", "font_variant", "font_weight"),
+        optional=("font_style", "font_variant", "font_weight", "font_width"),
         required=("font_size", "font_family"),
     )
     """A shorthand for simultaneously setting multiple properties of a font.

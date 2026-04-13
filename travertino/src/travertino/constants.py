@@ -70,12 +70,58 @@ SMALL_CAPS = "small-caps"
 FONT_VARIANTS = {SMALL_CAPS}
 
 ######################################################################
-# Font boldness
+# Font weight
 ######################################################################
 
 BOLD = "bold"
 
 FONT_WEIGHTS = {BOLD}
+
+# CSS-aligned numeric weight keywords
+WEIGHT_KEYWORDS = {
+    NORMAL: 400,
+    BOLD: 700,
+}
+
+######################################################################
+# Font width (CSS font-width / font-stretch → wdth axis)
+######################################################################
+
+ULTRA_CONDENSED = "ultra-condensed"
+EXTRA_CONDENSED = "extra-condensed"
+CONDENSED = "condensed"
+SEMI_CONDENSED = "semi-condensed"
+SEMI_EXPANDED = "semi-expanded"
+EXPANDED = "expanded"
+EXTRA_EXPANDED = "extra-expanded"
+ULTRA_EXPANDED = "ultra-expanded"
+
+FONT_WIDTHS = {
+    ULTRA_CONDENSED,
+    EXTRA_CONDENSED,
+    CONDENSED,
+    SEMI_CONDENSED,
+    SEMI_EXPANDED,
+    EXPANDED,
+    EXTRA_EXPANDED,
+    ULTRA_EXPANDED,
+}
+
+# CSS-aligned numeric width keywords (percentage of normal)
+WIDTH_KEYWORDS = {
+    NORMAL: 100.0,
+    ULTRA_CONDENSED: 50.0,
+    EXTRA_CONDENSED: 62.5,
+    CONDENSED: 75.0,
+    SEMI_CONDENSED: 87.5,
+    SEMI_EXPANDED: 112.5,
+    EXPANDED: 125.0,
+    EXTRA_EXPANDED: 150.0,
+    ULTRA_EXPANDED: 200.0,
+}
+
+# Standard OpenType axis tags that must be set via named properties, not axes dict
+STANDARD_AXES = {"wght", "wdth", "ital", "slnt", "opsz"}
 
 ######################################################################
 # Font Size

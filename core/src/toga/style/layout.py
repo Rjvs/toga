@@ -36,6 +36,7 @@ from travertino.style import BaseStyle
 from toga.fonts import (
     SYSTEM_DEFAULT_FONT_SIZE,
     Font,
+    FontWidth,
     UnknownFontError,
 )
 
@@ -94,6 +95,7 @@ class PackLogic(BaseStyle):
             "font_style",
             "font_variant",
             "font_weight",
+            "font_width",
         }:
             font = None
             font_kwargs = {
@@ -101,6 +103,7 @@ class PackLogic(BaseStyle):
                 "style": self.font_style,
                 "variant": self.font_variant,
                 "weight": self.font_weight,
+                "width": self.font_width,
             }
 
             for family in self.font_family:
@@ -209,6 +212,8 @@ class PackLogic(BaseStyle):
             css.append(f"font-size: {self.font_size}pt;")
         if self.font_weight != NORMAL:
             css.append(f"font-weight: {self.font_weight};")
+        if self.font_width != NORMAL:
+            css.append(f"font-width: {self.font_width};")
         if self.font_style != NORMAL:
             css.append(f"font-style: {self.font_style};")
         if self.font_variant != NORMAL:

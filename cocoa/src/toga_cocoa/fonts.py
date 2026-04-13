@@ -5,7 +5,6 @@ from fontTools.ttLib import TTFont
 from toga.fonts import (
     _IMPL_CACHE,
     _REGISTERED_FONT_CACHE,
-    BOLD,
     CURSIVE,
     FANTASY,
     ITALIC,
@@ -127,7 +126,7 @@ class Font:
 
         # Convert the base font definition into a font with all the desired traits.
         traits = 0
-        if self.interface.weight == BOLD:
+        if self.interface.weight >= 600:
             traits |= NSFontMask.Bold.value
         if self.interface.style in {ITALIC, OBLIQUE}:
             traits |= NSFontMask.Italic.value

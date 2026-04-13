@@ -35,5 +35,6 @@ class Font(LoggedObject):
                 self.interface.weight == other.interface.weight,
                 self.interface.variant == other.interface.variant,
                 self.interface.style == other.interface.style,
+                self.interface.axes == other.interface.axes,
             ]
         )

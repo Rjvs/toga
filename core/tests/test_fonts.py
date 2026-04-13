@@ -8,6 +8,7 @@ from toga.fonts import (
     BOLD,
     CURSIVE,
     FANTASY,
+    FontWeight,
     ITALIC,
     MESSAGE,
     MONOSPACE,
@@ -123,18 +124,18 @@ def test_builtin_font(family, size, weight, style, variant, as_str):
 @pytest.mark.parametrize(
     "family, weight, style, variant, key",
     [
-        ("Helvetica", NORMAL, NORMAL, NORMAL, ("Helvetica", NORMAL, NORMAL, NORMAL)),
+        ("Helvetica", NORMAL, NORMAL, NORMAL, ("Helvetica", 400, NORMAL, NORMAL)),
         (
             "Times New Roman",
             BOLD,
             ITALIC,
             SMALL_CAPS,
-            ("Times New Roman", BOLD, ITALIC, SMALL_CAPS),
+            ("Times New Roman", 700, ITALIC, SMALL_CAPS),
         ),
-        # Unknown style/weight/variants are normalized to "NORMAL"
-        ("Wonky", "unknown", ITALIC, SMALL_CAPS, ("Wonky", NORMAL, ITALIC, SMALL_CAPS)),
-        ("Wonky", BOLD, "unknown", SMALL_CAPS, ("Wonky", BOLD, NORMAL, SMALL_CAPS)),
-        ("Wonky", BOLD, ITALIC, "unknown", ("Wonky", BOLD, ITALIC, NORMAL)),
+        # Unknown style/weight/variants are normalized to defaults
+        ("Wonky", "unknown", ITALIC, SMALL_CAPS, ("Wonky", 400, ITALIC, SMALL_CAPS)),
+        ("Wonky", BOLD, "unknown", SMALL_CAPS, ("Wonky", 700, NORMAL, SMALL_CAPS)),
+        ("Wonky", BOLD, ITALIC, "unknown", ("Wonky", 700, ITALIC, NORMAL)),
     ],
 )
 def test_registered_font_key(app, family, style, weight, variant, key):
@@ -171,7 +172,7 @@ def test_register_font(app, path, registered):
     # Test fixture has paths in Path format; fully resolve for test comparison. This
     # gets around Windows path separator and absolute path discrepancies.
     assert (
-        Path(_REGISTERED_FONT_CACHE[("Custom Font", NORMAL, NORMAL, NORMAL)]).resolve()
+        Path(_REGISTERED_FONT_CACHE[("Custom Font", 400, NORMAL, NORMAL)]).resolve()
         == registered.resolve()
     )
 
@@ -220,6 +221,6 @@ def test_register_font_variant(app, path, registered):
     # Test fixture has paths in Path format; fully resolve for test comparison. This
     # gets around Windows path separator and absolute path discrepancies.
     assert (
-        Path(_REGISTERED_FONT_CACHE[("Custom Font", BOLD, NORMAL, NORMAL)]).resolve()
+        Path(_REGISTERED_FONT_CACHE[("Custom Font", 700, NORMAL, NORMAL)]).resolve()
         == registered.resolve()
     )

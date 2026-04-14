@@ -327,7 +327,6 @@ class Window(Container):
 
     def hide(self):
         self.native.AppWindow.Hide()
-        self.interface.on_hide()
 
     ######################################################################
     # Window state
@@ -431,7 +430,11 @@ class Window(Container):
         pos = app_window.Position
         bounds = self.native.Bounds
         scale = self._dpi_scale()
-        _, title_bar_height = self._decoration_size()
+        decor_w, decor_h = self._decoration_size()
+        # decor_h is the total vertical decoration (title bar + bottom border).
+        # The bottom border is half the horizontal decoration (symmetric).
+        bottom_border = decor_w // 2
+        title_bar_height = decor_h - bottom_border
         x = pos.X
         y = pos.Y + title_bar_height
         w = int(bounds.Width * scale)

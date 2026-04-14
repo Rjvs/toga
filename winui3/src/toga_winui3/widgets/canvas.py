@@ -364,8 +364,7 @@ class Context:
         self._current_subpath.append((_LINE, x + width, y + height))
         self._current_subpath.append((_LINE, x, y + height))
         self._current_subpath.append((_CLOSE,))
-        self._new_subpath()
-        self._current_point = None
+        self._new_subpath((x, y))
 
     def round_rect(self, x, y, width, height, radii):
         round_rect(self, x, y, width, height, radii)
@@ -776,9 +775,14 @@ class Canvas(Widget):
 
         ds.Close()
 
-        # Extract pixel bytes and encode to PNG using Pillow
+        # Extract pixel bytes (premultiplied BGRA) and convert to straight alpha
         pixel_bytes = bytes(render_target.GetPixelBytes())
         img = PILImage.frombytes("RGBA", (px_width, px_height), pixel_bytes, "raw", "BGRA")
+
+        # Win2D stores pixels in premultiplied alpha; unpremultiply for correct PNG
+        r, g, b, a = img.split()
+        img = PILImage.merge("RGBa", (r, g, b, a))
+        img = img.convert("RGBA")
 
         buffer = BytesIO()
         img.save(buffer, format="PNG")

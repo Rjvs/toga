@@ -20,6 +20,8 @@ from .base import Widget
 
 
 class ProgressBar(Widget):
+    native: WinUIProgressBar
+
     def create(self):
         self.native = WinUIProgressBar()
         self.native.Minimum = 0

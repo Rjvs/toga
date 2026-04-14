@@ -16,6 +16,8 @@ from .base import Widget
 
 
 class Button(Widget):
+    native: WinUIButton
+
     def create(self):
         self.native = WinUIButton()
         self.native.add_Click(WeakrefCallable(self.winui3_click))

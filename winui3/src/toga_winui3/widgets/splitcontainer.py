@@ -91,6 +91,8 @@ class _PanelContainer:
 
 
 class SplitContainer(Widget):
+    native: Grid
+
     def create(self):
         self.native = Grid()
         self._direction = Direction.VERTICAL

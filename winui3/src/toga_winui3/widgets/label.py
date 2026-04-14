@@ -7,6 +7,8 @@ from .base import Widget
 
 
 class Label(Widget):
+    native: TextBlock
+
     def create(self):
         self.native = TextBlock()
         self.native.TextWrapping = TextWrapping.NoWrap

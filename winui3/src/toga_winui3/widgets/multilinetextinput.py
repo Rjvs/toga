@@ -7,6 +7,8 @@ from .base import Widget
 
 
 class MultilineTextInput(Widget):
+    native: TextBox
+
     def create(self):
         self.native = TextBox()
         self.native.AcceptsReturn = True

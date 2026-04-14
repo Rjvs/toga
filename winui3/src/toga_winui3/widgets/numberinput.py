@@ -10,6 +10,8 @@ from .base import Widget
 
 
 class NumberInput(Widget):
+    native: NumberBox
+
     def create(self):
         self.native = NumberBox()
         self.native.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Inline

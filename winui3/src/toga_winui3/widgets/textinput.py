@@ -8,6 +8,8 @@ from .base import Widget
 
 
 class TextInput(Widget):
+    native: WinUITextBox
+
     def create(self):
         self.native = WinUITextBox()
         self.native.AcceptsReturn = False

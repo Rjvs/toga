@@ -36,6 +36,8 @@ def _native_date(py_date):
 
 
 class DateInput(Widget):
+    native: CalendarDatePicker
+
     def create(self):
         self.native = CalendarDatePicker()
         self.native.add_DateChanged(WeakrefCallable(self.winui3_date_changed))

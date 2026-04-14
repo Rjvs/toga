@@ -10,6 +10,8 @@ from .base import Widget
 
 
 class ScrollContainer(Widget):
+    native: ScrollViewer
+
     def create(self):
         self.native = ScrollViewer()
         self.native.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto

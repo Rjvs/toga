@@ -4,6 +4,8 @@ from .base import Widget
 
 
 class Box(Widget):
+    native: Canvas
+
     def create(self):
         # Box is a pure container - uses Canvas for absolute positioning
         # just like the window's content container.

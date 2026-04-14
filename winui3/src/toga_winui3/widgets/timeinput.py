@@ -29,6 +29,8 @@ def _native_time(py_time):
 
 
 class TimeInput(Widget):
+    native: WinUITimePicker
+
     def create(self):
         self.native = WinUITimePicker()
         self.native.add_TimeChanged(WeakrefCallable(self.winui3_time_changed))

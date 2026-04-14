@@ -1,10 +1,16 @@
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
 import shutil
 from http.cookiejar import Cookie, CookieJar
+from typing import TYPE_CHECKING
 
 import toga
+
+if TYPE_CHECKING:
+    from win32more.Microsoft.UI.Xaml.Controls import WebView2
 from toga.handlers import WeakrefCallable
 from toga.widgets.webview import CookiesResult, JavaScriptResult
 
@@ -22,6 +28,8 @@ def requires_initialization(method):
 
 
 class WebView(Widget):
+    native: WebView2
+
     def create(self):
         from win32more.Microsoft.UI.Xaml.Controls import WebView2
 

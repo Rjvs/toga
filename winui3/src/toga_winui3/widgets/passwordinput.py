@@ -7,6 +7,8 @@ from .base import Widget
 
 
 class PasswordInput(Widget):
+    native: PasswordBox
+
     def create(self):
         self.native = PasswordBox()
         self._error_message = None

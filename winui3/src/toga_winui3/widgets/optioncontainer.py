@@ -13,6 +13,7 @@ TAB_STRIP_HEIGHT = 40
 
 
 class OptionContainer(Widget):
+    native: TabView
     uses_icons = True
 
     def create(self):

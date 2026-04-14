@@ -19,6 +19,8 @@ from .base import Widget
 
 
 class DetailedList(Widget):
+    native: ListView
+
     def create(self):
         self.native = ListView()
         self.native.SelectionMode = ListViewSelectionMode.Single

@@ -5,6 +5,8 @@ from .base import Widget
 
 
 class ActivityIndicator(Widget):
+    native: ProgressRing
+
     def create(self):
         self.native = ProgressRing()
         self.native.IsActive = False

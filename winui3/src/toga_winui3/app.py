@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 
 from win32more.winui3 import XamlApplication
@@ -9,6 +11,8 @@ from .screens import Screen as ScreenImpl
 
 
 class App:
+    native: _WinUI3App
+
     # WinUI 3 apps exit when the last window is closed
     CLOSE_ON_LAST_WINDOW = True
     # WinUI 3 apps use default command line handling

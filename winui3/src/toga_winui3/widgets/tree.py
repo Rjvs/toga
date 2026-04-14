@@ -25,6 +25,8 @@ from .base import Widget
 
 
 class Tree(Widget):
+    native: Grid
+
     def create(self):
         self.native = Grid()
 

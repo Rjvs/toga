@@ -8,6 +8,8 @@ from .base import Widget
 
 
 class Switch(Widget):
+    native: ToggleSwitch
+
     def create(self):
         self.native = ToggleSwitch()
         self.native.add_Toggled(WeakrefCallable(self.winui3_toggled))

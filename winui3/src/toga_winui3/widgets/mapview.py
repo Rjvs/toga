@@ -1,11 +1,17 @@
+from __future__ import annotations
+
 import asyncio
 import html
 import json
+from typing import TYPE_CHECKING
 
 from toga.handlers import WeakrefCallable
 from toga.types import LatLng
 
 from .base import Widget
+
+if TYPE_CHECKING:
+    from win32more.Microsoft.UI.Xaml.Controls import WebView2
 
 MAPVIEW_HTML_CONTENT = """<!DOCTYPE html>
 <html lang="en">
@@ -79,6 +85,7 @@ def popup(pin):
 
 
 class MapView(Widget):
+    native: WebView2
     SUPPORTS_ON_SELECT = False
 
     def create(self):

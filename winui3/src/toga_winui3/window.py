@@ -38,6 +38,8 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Window(Container):
+    native: WinUIWindow
+
     def __init__(self, interface, title, position, size):
         self.interface = interface
 
@@ -45,6 +47,7 @@ class Window(Container):
         super().__init__(self.native)
 
         self._in_presentation_mode = False
+        self._pending_state_transition = None
         self._previous_state = WindowState.NORMAL
         self._cached_window_size = Size(int(size[0]), int(size[1]))
         self._min_window_size = None  # (width, height) in native pixels, or None
@@ -119,7 +122,6 @@ class Window(Container):
 
         current_state = self.get_window_state()
         if current_state != WindowState.MINIMIZED:
-            self._cached_window_size = self.get_size()
             self.interface.on_resize()
             self.resize_content()
 
@@ -254,7 +256,11 @@ class Window(Container):
         physical pixels including title bar and borders.
         """
         if self.interface.state == WindowState.MINIMIZED:
-            return self._cached_window_size
+            if self._cached_window_size is not None:
+                return self._cached_window_size
+            # Defensive fallback: should not happen if set_window_state
+            # correctly caches before minimizing.
+            return Size(0, 0)
 
         bounds = self.native.Bounds
         return Size(int(bounds.Width), int(bounds.Height))
@@ -328,6 +334,9 @@ class Window(Container):
     ######################################################################
 
     def get_window_state(self, in_progress_state=False):
+        if in_progress_state and self._pending_state_transition:
+            return self._pending_state_transition
+
         if self._in_presentation_mode:
             return WindowState.PRESENTATION
 
@@ -361,44 +370,37 @@ class Window(Container):
         if current_state == state:
             return
 
+        self._pending_state_transition = state
         app_window = self.native.AppWindow
 
-        # Leaving presentation: restore hidden UI and screen.
-        if current_state == WindowState.PRESENTATION:
-            self._exit_presentation_mode()
+        match current_state, state:
+            case WindowState.NORMAL, WindowState.MAXIMIZED:
+                app_window.SetPresenter(AppWindowPresenterKind.Default)
+                app_window.Presenter.Maximize()
 
-        # Leaving fullscreen: restore to overlapped presenter.
-        elif current_state == WindowState.FULLSCREEN:
-            app_window.SetPresenter(AppWindowPresenterKind.Default)
+            case WindowState.NORMAL, WindowState.MINIMIZED:
+                # Cache size before minimizing (WinUI 3 may report 0x0).
+                self._cached_window_size = self.interface.size
+                app_window.SetPresenter(AppWindowPresenterKind.Default)
+                app_window.Presenter.Minimize()
 
-        # Leaving any non-normal state: restore to normal first, then
-        # apply the target state (handles MAXIMIZED->MINIMIZED etc.)
-        elif current_state != WindowState.NORMAL:
-            self._cached_window_size = None
-            app_window.SetPresenter(AppWindowPresenterKind.Default)
+            case WindowState.NORMAL, WindowState.FULLSCREEN:
+                app_window.SetPresenter(AppWindowPresenterKind.FullScreen)
 
-        # Apply the target state.
-        if state == WindowState.NORMAL:
-            app_window.SetPresenter(AppWindowPresenterKind.Default)
-            self._cached_window_size = None
+            case WindowState.NORMAL, WindowState.PRESENTATION:
+                self._enter_presentation_mode()
 
-        elif state == WindowState.MAXIMIZED:
-            app_window.SetPresenter(AppWindowPresenterKind.Default)
-            presenter = app_window.Presenter
-            presenter.Maximize()
+            case _:
+                # Non-NORMAL → target: restore to NORMAL first, then recurse.
+                if current_state == WindowState.PRESENTATION:
+                    self._exit_presentation_mode()
+                else:
+                    app_window.SetPresenter(AppWindowPresenterKind.Default)
 
-        elif state == WindowState.MINIMIZED:
-            # Cache size before minimizing (WinUI 3 may report 0x0).
-            self._cached_window_size = self.interface.size
-            app_window.SetPresenter(AppWindowPresenterKind.Default)
-            presenter = app_window.Presenter
-            presenter.Minimize()
+                self.set_window_state(state)
+                return  # recursive call handles _pending_state_transition
 
-        elif state == WindowState.FULLSCREEN:
-            app_window.SetPresenter(AppWindowPresenterKind.FullScreen)
-
-        elif state == WindowState.PRESENTATION:
-            self._enter_presentation_mode()
+        self._pending_state_transition = None
 
     def _enter_presentation_mode(self):
         """Enter presentation mode (fullscreen).

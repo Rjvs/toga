@@ -24,6 +24,8 @@ from .base import Widget
 
 
 class Table(Widget):
+    native: Grid
+
     def create(self):
         self.native = Grid()
 

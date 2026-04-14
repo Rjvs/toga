@@ -363,7 +363,6 @@ class Context:
         self._current_subpath.append((_LINE, x + width, y))
         self._current_subpath.append((_LINE, x + width, y + height))
         self._current_subpath.append((_LINE, x, y + height))
-        self._current_subpath.append((_LINE, x, y))
         self._current_subpath.append((_CLOSE,))
         self._new_subpath()
         self._current_point = None
@@ -592,6 +591,8 @@ class Context:
 
 
 class Canvas(Widget):
+    native: CanvasControl
+
     def create(self):
         self.native = CanvasControl()
         self._default_background_color = TRANSPARENT

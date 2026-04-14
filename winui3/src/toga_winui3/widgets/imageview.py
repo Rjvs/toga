@@ -7,6 +7,8 @@ from .base import Widget
 
 
 class ImageView(Widget):
+    native: WinUIImage
+
     def create(self):
         self.native = WinUIImage()
         self.native.Stretch = Stretch.Uniform

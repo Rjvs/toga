@@ -15,6 +15,8 @@ CONTINUOUS_STEP = 0.0001
 
 
 class Slider(Widget):
+    native: WinUISlider
+
     def create(self):
         self.native = WinUISlider()
         self.native.Minimum = 0.0

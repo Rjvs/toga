@@ -8,6 +8,8 @@ _DIVIDER_FALLBACK = (255, 200, 200, 200)
 
 
 class Divider(Widget):
+    native: Border
+
     HORIZONTAL = 0
     VERTICAL = 1
 

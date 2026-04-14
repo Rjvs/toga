@@ -9,6 +9,8 @@ from .base import Widget
 
 
 class Selection(Widget):
+    native: ComboBox
+
     def create(self):
         self.native = ComboBox()
         self._items = []

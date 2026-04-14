@@ -6,30 +6,36 @@
 from typing import Any
 
 class CanvasAnalyzedBidi:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     ExplicitLevel: Any
     ResolvedLevel: Any
 
 class CanvasAnalyzedBreakpoint:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     BreakBefore: Any
     BreakAfter: Any
     IsWhitespace: Any
     IsSoftHyphen: Any
 
 class CanvasAnalyzedGlyphOrientation:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     GlyphOrientation: Any
     AdjustedBidiLevel: Any
     IsSideways: Any
     IsRightToLeft: Any
 
 class CanvasAnalyzedScript:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     ScriptIdentifier: Any
     Shape: Any
 
 class CanvasCharacterRange:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     CharacterIndex: Any
     CharacterCount: Any
 
 class CanvasClusterMetrics:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     CharacterCount: Any
     Width: Any
     Properties: Any
@@ -132,6 +138,7 @@ class CanvasFontInformation(int):
     SupportedScriptLanguageTag: int
 
 class CanvasFontProperty:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Identifier: Any
     Value: Any
     Locale: Any
@@ -174,6 +181,7 @@ class CanvasFontSimulations(int):
     Oblique: int
 
 class CanvasGlyph:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Index: Any
     Advance: Any
     AdvanceOffset: Any
@@ -195,6 +203,7 @@ class CanvasGlyphJustification(int):
     ArabicSeenM: int
 
 class CanvasGlyphMetrics:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     LeftSideBearing: Any
     AdvanceWidth: Any
     RightSideBearing: Any
@@ -211,6 +220,7 @@ class CanvasGlyphOrientation(int):
     Clockwise270Degrees: int
 
 class CanvasGlyphShaping:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Justification: Any
     IsClusterStart: Any
     IsDiacritic: Any
@@ -223,6 +233,7 @@ class CanvasHorizontalAlignment(int):
     Justified: int
 
 class CanvasJustificationOpportunity:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     ExpansionMinimum: Any
     ExpansionMaximum: Any
     CompressionMaximum: Any
@@ -240,6 +251,7 @@ class CanvasLineBreakCondition(int):
     MustBreak: int
 
 class CanvasLineMetrics:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     CharacterCount: Any
     TrailingWhitespaceCount: Any
     TerminalNewlineCount: Any
@@ -278,6 +290,7 @@ class CanvasScaledFont:
     ScaleFactor: Any
 
 class CanvasScriptProperties:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     IsoScriptCode: Any
     IsoScriptNumber: Any
     ClusterLookahead: Any
@@ -459,6 +472,7 @@ class CanvasTextLayout:
     def GetGlyphOrientationTransform(cls, _p0: Any = ..., _p1: Any = ..., _p2: Any = ...) -> Any: ...
 
 class CanvasTextLayoutRegion:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     CharacterIndex: Any
     CharacterCount: Any
     LayoutBounds: Any
@@ -502,6 +516,7 @@ class CanvasTypography:
     def Close(self) -> Any: ...
 
 class CanvasTypographyFeature:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Name: Any
     Parameter: Any
 
@@ -590,6 +605,7 @@ class CanvasTypographyFeatureName(int):
     SlashedZero: int
 
 class CanvasUnicodeRange:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     First: Any
     Last: Any
 

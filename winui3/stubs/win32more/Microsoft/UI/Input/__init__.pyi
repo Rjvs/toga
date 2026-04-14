@@ -14,6 +14,7 @@ class ContextMenuKeyEventArgs:
     Handled: Any
 
 class CrossSlideThresholds:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     SelectionStart: Any
     SpeedBumpStart: Any
     SpeedBumpEnd: Any
@@ -732,6 +733,7 @@ class ManipulationCompletedEventArgs:
     Velocities: Any
 
 class ManipulationDelta:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Translation: Any
     Scale: Any
     Rotation: Any
@@ -757,6 +759,7 @@ class ManipulationUpdatedEventArgs:
     Velocities: Any
 
 class ManipulationVelocities:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Linear: Any
     Angular: Any
     Expansion: Any
@@ -804,6 +807,7 @@ class NonClientRegionsChangedEventArgs:
     ChangedRegions: Any
 
 class PhysicalKeyStatus:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     RepeatCount: Any
     ScanCode: Any
     IsExtendedKey: Any

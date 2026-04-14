@@ -348,8 +348,13 @@ def _generate_enum_stub(lines: list[str], cls: ClassInfo) -> None:
 
 
 def _generate_structure_stub(lines: list[str], cls: ClassInfo) -> None:
-    """Generate stub for a Structure/Union class (C-style struct)."""
+    """Generate stub for a Structure/Union class (C-style struct).
+
+    Structure types can be constructed with positional args matching their
+    fields (e.g. Thickness(4, 2, 4, 2)) so we emit __init__ with *args.
+    """
     lines.append(f"class {cls.name}:")
+    lines.append("    def __init__(self, *args: Any, **kwargs: Any) -> None: ...")
     if cls.struct_fields:
         for name in cls.struct_fields:
             lines.append(f"    {name}: Any")

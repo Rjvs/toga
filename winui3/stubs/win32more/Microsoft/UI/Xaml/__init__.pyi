@@ -156,6 +156,7 @@ class ColorPaletteResources(ResourceDictionary):
     ListMedium: Any
 
 class CornerRadius:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     TopLeft: Any
     TopRight: Any
     BottomRight: Any
@@ -317,6 +318,7 @@ class DropCompletedEventArgs(RoutedEventArgs):
     DropResult: Any
 
 class Duration:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     TimeSpan: Any
     Type: Any
 
@@ -589,6 +591,7 @@ class FrameworkViewSource:
     def CreateView(self) -> Any: ...
 
 class GridLength:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any
     GridUnitType: Any
 
@@ -1640,6 +1643,7 @@ class TextWrapping(int):
     WrapWholeWords: int
 
 class Thickness:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Left: Any
     Top: Any
     Right: Any

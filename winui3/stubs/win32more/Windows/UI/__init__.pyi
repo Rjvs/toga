@@ -6,6 +6,7 @@
 from typing import Any
 
 class Color:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     A: Any
     R: Any
     G: Any
@@ -313,4 +314,5 @@ class UIContext:
     ...
 
 class WindowId:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any

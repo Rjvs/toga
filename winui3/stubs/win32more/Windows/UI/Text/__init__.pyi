@@ -40,6 +40,7 @@ class FontStyle(int):
     Italic: int
 
 class FontWeight:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Weight: Any
 
 class FontWeights:

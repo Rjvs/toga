@@ -843,6 +843,7 @@ class KeySpline(DependencyObject):
     ControlPoint2: Any
 
 class KeyTime:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     TimeSpan: Any
 
 class KeyTimeHelper:
@@ -993,6 +994,7 @@ class ReorderThemeTransition(Transition):
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
 class RepeatBehavior:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Count: Any
     Duration: Any
     Type: Any

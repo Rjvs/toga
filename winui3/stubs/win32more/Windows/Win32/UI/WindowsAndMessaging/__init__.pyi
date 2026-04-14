@@ -6,11 +6,13 @@
 from typing import Any
 
 class ACCEL:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     fVirt: Any
     key: Any
     cmd: Any
 
 class ALTTABINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     cItems: Any
     cColumns: Any
@@ -22,35 +24,43 @@ class ALTTABINFO:
     ptStart: Any
 
 class ANIMATIONINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     iMinAnimate: Any
 
 class AUDIODESCRIPTION:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     Enabled: Any
     Locale: Any
 
 class CBTACTIVATESTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     fMouse: Any
     hWndActive: Any
 
 class CBT_CREATEWNDA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lpcs: Any
     hwndInsertAfter: Any
 
 class CBT_CREATEWNDW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lpcs: Any
     hwndInsertAfter: Any
 
 class CHANGEFILTERSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     ExtStatus: Any
 
 class CLIENTCREATESTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hWindowMenu: Any
     idFirstChild: Any
 
 class CREATESTRUCTA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lpCreateParams: Any
     hInstance: Any
     hMenu: Any
@@ -65,6 +75,7 @@ class CREATESTRUCTA:
     dwExStyle: Any
 
 class CREATESTRUCTW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lpCreateParams: Any
     hInstance: Any
     hMenu: Any
@@ -79,12 +90,14 @@ class CREATESTRUCTW:
     dwExStyle: Any
 
 class CURSORINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     flags: Any
     hCursor: Any
     ptScreenPos: Any
 
 class CURSORSHAPE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     xHotSpot: Any
     yHotSpot: Any
     cx: Any
@@ -94,6 +107,7 @@ class CURSORSHAPE:
     BitsPixel: Any
 
 class CWPRETSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lResult: Any
     lParam: Any
     wParam: Any
@@ -101,12 +115,14 @@ class CWPRETSTRUCT:
     hwnd: Any
 
 class CWPSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     lParam: Any
     wParam: Any
     message: Any
     hwnd: Any
 
 class DEBUGHOOKINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     idThread: Any
     idThreadInstaller: Any
     lParam: Any
@@ -114,11 +130,13 @@ class DEBUGHOOKINFO:
     code: Any
 
 class DEVICE_EVENT_BECOMING_READY:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Version: Any
     Reason: Any
     Estimated100msToReady: Any
 
 class DEVICE_EVENT_EXTERNAL_REQUEST:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Version: Any
     DeviceClass: Any
     ButtonStatus: Any
@@ -126,15 +144,18 @@ class DEVICE_EVENT_EXTERNAL_REQUEST:
     SystemTime: Any
 
 class DEVICE_EVENT_GENERIC_DATA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     EventNumber: Any
 
 class DEVICE_EVENT_MOUNT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Version: Any
     Flags: Any
     FileSystemNameLength: Any
     FileSystemNameOffset: Any
 
 class DEVICE_EVENT_RBC_DATA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     EventNumber: Any
     SenseQualifier: Any
     SenseCode: Any
@@ -143,6 +164,7 @@ class DEVICE_EVENT_RBC_DATA:
     Information: Any
 
 class DEV_BROADCAST_DEVICEINTERFACE_A:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcc_size: Any
     dbcc_devicetype: Any
     dbcc_reserved: Any
@@ -150,6 +172,7 @@ class DEV_BROADCAST_DEVICEINTERFACE_A:
     dbcc_name: Any
 
 class DEV_BROADCAST_DEVICEINTERFACE_W:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcc_size: Any
     dbcc_devicetype: Any
     dbcc_reserved: Any
@@ -157,12 +180,14 @@ class DEV_BROADCAST_DEVICEINTERFACE_W:
     dbcc_name: Any
 
 class DEV_BROADCAST_DEVNODE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcd_size: Any
     dbcd_devicetype: Any
     dbcd_reserved: Any
     dbcd_devnode: Any
 
 class DEV_BROADCAST_HANDLE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbch_size: Any
     dbch_devicetype: Any
     dbch_reserved: Any
@@ -173,6 +198,7 @@ class DEV_BROADCAST_HANDLE:
     dbch_data: Any
 
 class DEV_BROADCAST_HANDLE32:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbch_size: Any
     dbch_devicetype: Any
     dbch_reserved: Any
@@ -183,6 +209,7 @@ class DEV_BROADCAST_HANDLE32:
     dbch_data: Any
 
 class DEV_BROADCAST_HANDLE64:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbch_size: Any
     dbch_devicetype: Any
     dbch_reserved: Any
@@ -193,11 +220,13 @@ class DEV_BROADCAST_HANDLE64:
     dbch_data: Any
 
 class DEV_BROADCAST_HDR:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbch_size: Any
     dbch_devicetype: Any
     dbch_reserved: Any
 
 class DEV_BROADCAST_NET:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcn_size: Any
     dbcn_devicetype: Any
     dbcn_reserved: Any
@@ -205,6 +234,7 @@ class DEV_BROADCAST_NET:
     dbcn_flags: Any
 
 class DEV_BROADCAST_OEM:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbco_size: Any
     dbco_devicetype: Any
     dbco_reserved: Any
@@ -212,18 +242,21 @@ class DEV_BROADCAST_OEM:
     dbco_suppfunc: Any
 
 class DEV_BROADCAST_PORT_A:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcp_size: Any
     dbcp_devicetype: Any
     dbcp_reserved: Any
     dbcp_name: Any
 
 class DEV_BROADCAST_PORT_W:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcp_size: Any
     dbcp_devicetype: Any
     dbcp_reserved: Any
     dbcp_name: Any
 
 class DEV_BROADCAST_VOLUME:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcv_size: Any
     dbcv_devicetype: Any
     dbcv_reserved: Any
@@ -231,9 +264,11 @@ class DEV_BROADCAST_VOLUME:
     dbcv_flags: Any
 
 class DISK_HEALTH_NOTIFICATION_DATA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     DeviceGuid: Any
 
 class DLGITEMTEMPLATE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     style: Any
     dwExtendedStyle: Any
     x: Any
@@ -243,6 +278,7 @@ class DLGITEMTEMPLATE:
     id: Any
 
 class DLGTEMPLATE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     style: Any
     dwExtendedStyle: Any
     cdit: Any
@@ -252,6 +288,7 @@ class DLGTEMPLATE:
     cy: Any
 
 class DROPSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hwndSource: Any
     hwndSink: Any
     wFmt: Any
@@ -260,6 +297,7 @@ class DROPSTRUCT:
     dwControlData: Any
 
 class EVENTMSG:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     message: Any
     paramL: Any
     paramH: Any
@@ -267,6 +305,7 @@ class EVENTMSG:
     hwnd: Any
 
 class FLASHWINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     hwnd: Any
     dwFlags: Any
@@ -274,20 +313,24 @@ class FLASHWINFO:
     dwTimeout: Any
 
 class FRAME_MARGIN:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     left: Any
     right: Any
     top: Any
     bottom: Any
 
 class GETCLIPBMETADATA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Version: Any
     IsDelayRendered: Any
     IsSynthetic: Any
 
 class GUID_IO_DISK_CLONE_ARRIVAL_INFORMATION:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     DiskNumber: Any
 
 class GUITHREADINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     flags: Any
     hwndActive: Any
@@ -299,16 +342,19 @@ class GUITHREADINFO:
     rcCaret: Any
 
 class HARDWAREHOOKSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hwnd: Any
     message: Any
     wParam: Any
     lParam: Any
 
 class IndexedResourceQualifier:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     name: Any
     value: Any
 
 class KBDLLHOOKSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     vkCode: Any
     scanCode: Any
     flags: Any
@@ -316,6 +362,7 @@ class KBDLLHOOKSTRUCT:
     dwExtraInfo: Any
 
 class MDICREATESTRUCTA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     szClass: Any
     szTitle: Any
     hOwner: Any
@@ -327,6 +374,7 @@ class MDICREATESTRUCTA:
     lParam: Any
 
 class MDICREATESTRUCTW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     szClass: Any
     szTitle: Any
     hOwner: Any
@@ -338,11 +386,13 @@ class MDICREATESTRUCTW:
     lParam: Any
 
 class MDINEXTMENU:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hmenuIn: Any
     hmenuNext: Any
     hwndNext: Any
 
 class MENUBARINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcBar: Any
     hMenu: Any
@@ -352,11 +402,13 @@ class MENUBARINFO:
     fUnused: Any
 
 class MENUEX_TEMPLATE_HEADER:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     wVersion: Any
     wOffset: Any
     dwHelpId: Any
 
 class MENUEX_TEMPLATE_ITEM:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dwType: Any
     dwState: Any
     uId: Any
@@ -364,6 +416,7 @@ class MENUEX_TEMPLATE_ITEM:
     szText: Any
 
 class MENUGETOBJECTINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dwFlags: Any
     uPos: Any
     hmenu: Any
@@ -371,6 +424,7 @@ class MENUGETOBJECTINFO:
     pvObj: Any
 
 class MENUINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     fMask: Any
     dwStyle: Any
@@ -380,6 +434,7 @@ class MENUINFO:
     dwMenuData: Any
 
 class MENUITEMINFOA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     fMask: Any
     fType: Any
@@ -394,6 +449,7 @@ class MENUITEMINFOA:
     hbmpItem: Any
 
 class MENUITEMINFOW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     fMask: Any
     fType: Any
@@ -408,32 +464,39 @@ class MENUITEMINFOW:
     hbmpItem: Any
 
 class MENUITEMTEMPLATE:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     mtOption: Any
     mtID: Any
     mtString: Any
 
 class MENUITEMTEMPLATEHEADER:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     versionNumber: Any
     offset: Any
 
 class MENUTEMPLATEEX:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Anonymous: Any
 
 class MESSAGE_RESOURCE_BLOCK:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     LowId: Any
     HighId: Any
     OffsetToEntries: Any
 
 class MESSAGE_RESOURCE_DATA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     NumberOfBlocks: Any
     Blocks: Any
 
 class MESSAGE_RESOURCE_ENTRY:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Length: Any
     Flags: Any
     Text: Any
 
 class MINIMIZEDMETRICS:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     iWidth: Any
     iHorzGap: Any
@@ -441,6 +504,7 @@ class MINIMIZEDMETRICS:
     iArrange: Any
 
 class MINMAXINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     ptReserved: Any
     ptMaxSize: Any
     ptMaxPosition: Any
@@ -448,16 +512,19 @@ class MINMAXINFO:
     ptMaxTrackSize: Any
 
 class MOUSEHOOKSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     pt: Any
     hwnd: Any
     wHitTestCode: Any
     dwExtraInfo: Any
 
 class MOUSEHOOKSTRUCTEX:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Base: Any
     mouseData: Any
 
 class MSG:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hwnd: Any
     message: Any
     wParam: Any
@@ -466,6 +533,7 @@ class MSG:
     pt: Any
 
 class MSGBOXPARAMSA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     hwndOwner: Any
     hInstance: Any
@@ -478,6 +546,7 @@ class MSGBOXPARAMSA:
     dwLanguageId: Any
 
 class MSGBOXPARAMSW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     hwndOwner: Any
     hInstance: Any
@@ -490,6 +559,7 @@ class MSGBOXPARAMSW:
     dwLanguageId: Any
 
 class MSLLHOOKSTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     pt: Any
     mouseData: Any
     flags: Any
@@ -497,18 +567,22 @@ class MSLLHOOKSTRUCT:
     dwExtraInfo: Any
 
 class MrmResourceIndexerHandle:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     handle: Any
 
 class MrmResourceIndexerMessage:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     severity: Any
     id: Any
     text: Any
 
 class NCCALCSIZE_PARAMS:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     rgrc: Any
     lppos: Any
 
 class NONCLIENTMETRICSA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     iBorderWidth: Any
     iScrollWidth: Any
@@ -527,6 +601,7 @@ class NONCLIENTMETRICSA:
     iPaddedBorderWidth: Any
 
 class NONCLIENTMETRICSW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     iBorderWidth: Any
     iScrollWidth: Any
@@ -545,6 +620,7 @@ class NONCLIENTMETRICSW:
     iPaddedBorderWidth: Any
 
 class SCROLLBARINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcScrollBar: Any
     dxyLineButton: Any
@@ -554,6 +630,7 @@ class SCROLLBARINFO:
     rgstate: Any
 
 class SCROLLINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     fMask: Any
     nMin: Any
@@ -563,25 +640,30 @@ class SCROLLINFO:
     nTrackPos: Any
 
 class SHELLHOOKINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hwnd: Any
     rc: Any
 
 class STYLESTRUCT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     styleOld: Any
     styleNew: Any
 
 class TITLEBARINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcTitleBar: Any
     rgstate: Any
 
 class TITLEBARINFOEX:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcTitleBar: Any
     rgstate: Any
     rgrect: Any
 
 class TOUCHPAD_PARAMETERS_V1:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     versionNumber: Any
     maxSupportedContacts: Any
     legacyTouchpadFeatures: Any
@@ -612,6 +694,7 @@ class TOUCHPAD_PARAMETERS_V1:
     rightClickZoneHeight: Any
 
 class TOUCHPAD_PARAMETERS_V2:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Base: Any
     button1Supported: Any
     button2Supported: Any
@@ -619,16 +702,19 @@ class TOUCHPAD_PARAMETERS_V2:
     Reserved3: Any
 
 class TOUCHPREDICTIONPARAMETERS:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     dwLatency: Any
     dwSampleTime: Any
     bUseHWTimeStamp: Any
 
 class TPMPARAMS:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcExclude: Any
 
 class UPDATELAYEREDWINDOWINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     hdcDst: Any
     pptDst: Any
@@ -641,6 +727,7 @@ class UPDATELAYEREDWINDOWINFO:
     prcDirty: Any
 
 class VolLockBroadcast:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     vlb_dbh: Any
     vlb_owner: Any
     vlb_perms: Any
@@ -649,6 +736,7 @@ class VolLockBroadcast:
     vlb_flags: Any
 
 class WINDOWINFO:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     rcWindow: Any
     rcClient: Any
@@ -661,6 +749,7 @@ class WINDOWINFO:
     wCreatorVersion: Any
 
 class WINDOWPLACEMENT:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     length: Any
     flags: Any
     showCmd: Any
@@ -669,6 +758,7 @@ class WINDOWPLACEMENT:
     rcNormalPosition: Any
 
 class WINDOWPOS:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     hwnd: Any
     hwndInsertAfter: Any
     x: Any
@@ -678,6 +768,7 @@ class WINDOWPOS:
     flags: Any
 
 class WINDOW_ACTION:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     kinds: Any
     modifiers: Any
     visible: Any
@@ -692,6 +783,7 @@ class WINDOW_ACTION:
     monitorTopologyId: Any
 
 class WNDCLASSA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     style: Any
     lpfnWndProc: Any
     cbClsExtra: Any
@@ -704,6 +796,7 @@ class WNDCLASSA:
     lpszClassName: Any
 
 class WNDCLASSEXA:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     style: Any
     lpfnWndProc: Any
@@ -718,6 +811,7 @@ class WNDCLASSEXA:
     hIconSm: Any
 
 class WNDCLASSEXW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     cbSize: Any
     style: Any
     lpfnWndProc: Any
@@ -732,6 +826,7 @@ class WNDCLASSEXW:
     hIconSm: Any
 
 class WNDCLASSW:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     style: Any
     lpfnWndProc: Any
     cbClsExtra: Any
@@ -744,10 +839,12 @@ class WNDCLASSW:
     lpszClassName: Any
 
 class _DEV_BROADCAST_HEADER:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbcd_size: Any
     dbcd_devicetype: Any
     dbcd_reserved: Any
 
 class _DEV_BROADCAST_USERDEFINED:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     dbud_dbh: Any
     dbud_szName: Any

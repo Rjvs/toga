@@ -30,6 +30,7 @@ class AsyncStatus(int):
     Started: int
 
 class DateTime:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     UniversalTime: Any
 
 class Deferral:
@@ -46,6 +47,7 @@ class EventHandler:
     def Invoke(self, _p0: Any = ..., _p1: Any = ...) -> Any: ...
 
 class EventRegistrationToken:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any
 
 class GuidHelper:
@@ -56,6 +58,7 @@ class GuidHelper:
     def Equals(cls, _p0: Any = ..., _p1: Any = ...) -> Any: ...
 
 class HResult:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any
 
 class IAsyncAction:
@@ -176,6 +179,7 @@ class MemoryBuffer:
     def Close(self) -> Any: ...
 
 class Point:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
 
@@ -303,16 +307,19 @@ class PropertyValue:
     def CreateRectArray(cls, _p0: Any = ...) -> Any: ...
 
 class Rect:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
     Width: Any
     Height: Any
 
 class Size:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Width: Any
     Height: Any
 
 class TimeSpan:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Duration: Any
 
 class TypedEventHandler:

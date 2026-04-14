@@ -6,6 +6,7 @@
 from typing import Any
 
 class Matrix3x2:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     M11: Any
     M12: Any
     M21: Any
@@ -14,6 +15,7 @@ class Matrix3x2:
     M32: Any
 
 class Matrix4x4:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     M11: Any
     M12: Any
     M13: Any
@@ -32,29 +34,35 @@ class Matrix4x4:
     M44: Any
 
 class Plane:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Normal: Any
     D: Any
 
 class Quaternion:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
     Z: Any
     W: Any
 
 class Rational:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Numerator: Any
     Denominator: Any
 
 class Vector2:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
 
 class Vector3:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
     Z: Any
 
 class Vector4:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     X: Any
     Y: Any
     Z: Any

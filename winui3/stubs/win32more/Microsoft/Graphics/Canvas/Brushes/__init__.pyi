@@ -6,10 +6,12 @@
 from typing import Any
 
 class CanvasGradientStop:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Position: Any
     Color: Any
 
 class CanvasGradientStopHdr:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Position: Any
     Color: Any
 

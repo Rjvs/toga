@@ -158,6 +158,7 @@ class Colors:
     YellowGreen: Any
 
 class DisplayId:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any
 
 class IClosableNotifier:
@@ -313,7 +314,9 @@ class IColorsStatics:
     YellowGreen: Any
 
 class IconId:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any
 
 class WindowId:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Value: Any

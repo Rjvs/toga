@@ -390,6 +390,7 @@ class GeneratorDirection(int):
     Backward: int
 
 class GeneratorPosition:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Index: Any
     Offset: Any
 

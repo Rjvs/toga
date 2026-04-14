@@ -708,6 +708,7 @@ class LoadedImageSurface:
     def StartLoadFromStream(cls, _p0: Any = ...) -> Any: ...
 
 class Matrix:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     M11: Any
     M12: Any
     M21: Any

@@ -153,6 +153,7 @@ class CanvasGradientMesh:
     def CreateTensorPatch(cls, _p0: Any = ..., _p1: Any = ..., _p2: Any = ...) -> Any: ...
 
 class CanvasGradientMeshPatch:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Point00: Any
     Point01: Any
     Point02: Any
@@ -232,6 +233,7 @@ class CanvasSweepDirection(int):
     Clockwise: int
 
 class CanvasTriangleVertices:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
     Vertex1: Any
     Vertex2: Any
     Vertex3: Any

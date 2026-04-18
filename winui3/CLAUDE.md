@@ -9,15 +9,14 @@ Tasks are not complete until pre-release hook is clean `prek run --all-files` wi
 Defensive programming is important; the common case should always be the default and "falling back" should always require an active measure; it should not be able to happen by forgetting a parameter.
 
 There are skills available;
+
 - knowledge about WinUI3 is in windows-ui skill
 - there is a win32more skill
 - we have a toga skill and a toga-dev skill
 
 ## Project Overview
 
-Our aim is to create a fully-functional WinUI3-based backend for Toga.  It's very important that all of the Toga API types are correct and provide funtionally equivalent information as the WinForms backend.
-All features present in the toga-winforms backend should be equally functional in the new toga-winui3 backend.  Obviously the implementations themselves will be different but all components must uphold to Toga contract
-and behave the way that a Toga backend is supposed to behave.  It should all be tested thoroughly, using the Toga testing standards and the tests should be equivalent to all of the other backends.
+Our aim is to create a fully-functional WinUI3-based backend for Toga. It's very important that all of the Toga API types are correct and provide funtionally equivalent information as the WinForms backend. All features present in the toga-winforms backend should be equally functional in the new toga-winui3 backend. Obviously the implementations themselves will be different but all components must uphold to Toga contract and behave the way that a Toga backend is supposed to behave. It should all be tested thoroughly, using the Toga testing standards and the tests should be equivalent to all of the other backends.
 
 ## Semantic Versioning
 

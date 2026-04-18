@@ -21,9 +21,7 @@ from pathlib import Path
 # Root paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 STUBS_DIR = REPO_ROOT / "winui3" / "stubs"
-SITE_PACKAGES = (
-    REPO_ROOT / ".venv" / "lib" / "python3.13" / "site-packages"
-)
+SITE_PACKAGES = REPO_ROOT / ".venv" / "lib" / "python3.13" / "site-packages"
 WIN32MORE_ROOT = SITE_PACKAGES / "win32more"
 
 # All win32more modules imported by the winui3 backend.
@@ -110,19 +108,26 @@ def _is_interface_class(node: ast.ClassDef) -> bool:
     Interface classes start with 'I' + uppercase and don't have property()
     assignments — they only have method stubs.
     """
-    if not (node.name.startswith("I") and len(node.name) > 1 and node.name[1].isupper()):
+    if not (
+        node.name.startswith("I") and len(node.name) > 1 and node.name[1].isupper()
+    ):
         return False
 
     for item in node.body:
         if isinstance(item, ast.Assign):
             for target in item.targets:
                 if isinstance(target, ast.Name) and isinstance(item.value, ast.Call):
-                    if isinstance(item.value.func, ast.Name) and item.value.func.id == "property":
+                    if (
+                        isinstance(item.value.func, ast.Name)
+                        and item.value.func.id == "property"
+                    ):
                         return False
     return True
 
 
-def resolve_base_class(extends_annotation: str | None, current_module: str) -> str | None:
+def resolve_base_class(
+    extends_annotation: str | None, current_module: str
+) -> str | None:
     """Convert a fully-qualified extends annotation to a stub-local reference.
 
     If the base class is in the same module, return just the class name.
@@ -171,7 +176,9 @@ class ClassInfo:
         self.properties: list[tuple[str, bool]] = []  # (name, writable)
         self.events: list[str] = []  # event names
         self.class_properties: list[str] = []  # metaclass property names
-        self.methods: list[tuple[str, int, bool]] = []  # (name, param_count, is_classmethod)
+        self.methods: list[
+            tuple[str, int, bool]
+        ] = []  # (name, param_count, is_classmethod)
         self.has_init = False  # whether class defines __init__
 
 
@@ -209,8 +216,14 @@ def extract_classes(source_path: Path) -> list[ClassInfo]:
             if base_str == "Enum" or base_str.endswith(".Enum"):
                 is_enum = True
             elif base_str in (
-                "Int32", "UInt32", "Int64", "UInt64", "Int16", "UInt16",
-                "Byte", "SByte",
+                "Int32",
+                "UInt32",
+                "Int64",
+                "UInt64",
+                "Int16",
+                "UInt16",
+                "Byte",
+                "SByte",
             ):
                 enum_base = base_str
             elif base_str in ("Structure", "Union"):
@@ -235,7 +248,9 @@ def extract_classes(source_path: Path) -> list[ClassInfo]:
             # Extract enum values
             if is_enum and isinstance(item, ast.Assign):
                 for target in item.targets:
-                    if isinstance(target, ast.Name) and isinstance(item.value, ast.Constant):
+                    if isinstance(target, ast.Name) and isinstance(
+                        item.value, ast.Constant
+                    ):
                         if not target.id.startswith("_"):
                             info.enum_values.append((target.id, item.value.value))
 
@@ -264,14 +279,14 @@ def extract_classes(source_path: Path) -> list[ClassInfo]:
                 elif item.name.startswith("add_") or item.name.startswith("remove_"):
                     # Event subscription methods — expose directly
                     param_count = len(item.args.args) - 1
-                    info.methods.append(
-                        (item.name, max(param_count, 0), False)
-                    )
+                    info.methods.append((item.name, max(param_count, 0), False))
 
             # Extract property() and event() assignments
             if isinstance(item, ast.Assign):
                 for target in item.targets:
-                    if isinstance(target, ast.Name) and isinstance(item.value, ast.Call):
+                    if isinstance(target, ast.Name) and isinstance(
+                        item.value, ast.Call
+                    ):
                         func = item.value
                         if isinstance(func.func, ast.Name):
                             if func.func.id == "property" and func.args:
@@ -283,10 +298,15 @@ def extract_classes(source_path: Path) -> list[ClassInfo]:
                             elif func.func.id == "event":
                                 info.events.append(target.id)
 
-                    elif isinstance(target, ast.Attribute) and isinstance(item.value, ast.Call):
+                    elif isinstance(target, ast.Attribute) and isinstance(
+                        item.value, ast.Call
+                    ):
                         # _Meta_.PropertyName = property(...)
                         func = item.value
-                        if isinstance(func.func, ast.Name) and func.func.id == "property":
+                        if (
+                            isinstance(func.func, ast.Name)
+                            and func.func.id == "property"
+                        ):
                             info.class_properties.append(target.attr)
 
         classes.append(info)
@@ -407,10 +427,10 @@ def _generate_class_stub(lines: list[str], cls: ClassInfo, module: str) -> None:
         params = ", ".join(f"_p{i}: Any = ..." for i in range(param_count))
         if is_classmethod:
             if params:
-                lines.append(f"    @classmethod")
+                lines.append("    @classmethod")
                 lines.append(f"    def {name}(cls, {params}) -> Any: ...")
             else:
-                lines.append(f"    @classmethod")
+                lines.append("    @classmethod")
                 lines.append(f"    def {name}(cls) -> Any: ...")
         else:
             if params:
@@ -456,8 +476,7 @@ def generate_all_stubs() -> None:
             # Still create an empty stub so imports resolve
             stub_path.parent.mkdir(parents=True, exist_ok=True)
             stub_path.write_text(
-                "# Auto-generated type stubs for win32more\n"
-                "from typing import Any\n"
+                "# Auto-generated type stubs for win32more\nfrom typing import Any\n"
             )
             print(f"  {module}: empty stub (no public classes)")
             total_modules += 1
@@ -486,8 +505,7 @@ def _create_package_inits(root: Path) -> None:
             init = dirpath / "__init__.pyi"
             if not init.exists():
                 init.write_text(
-                    "# Auto-generated package marker\n"
-                    "from typing import Any\n"
+                    "# Auto-generated package marker\nfrom typing import Any\n"
                 )
 
 

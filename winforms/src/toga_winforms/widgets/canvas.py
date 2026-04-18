@@ -23,8 +23,8 @@ from System.Drawing.Imaging import ImageFormat
 from System.IO import MemoryStream
 
 from toga.colors import TRANSPARENT, rgb
-from toga.fonts import POINTS_PER_PIXEL
 from toga.constants import Baseline, FillRule
+from toga.fonts import POINTS_PER_PIXEL
 from toga.handlers import WeakrefCallable
 from toga.widgets.canvas.geometry import arc_to_bezier, round_rect, sweepangle
 from toga_winforms.colors import native_color

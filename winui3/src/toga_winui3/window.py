@@ -49,6 +49,7 @@ class Window(Container):
         self._in_presentation_mode = False
         self._pending_state_transition = None
         self._previous_state = WindowState.NORMAL
+        self._visible = True
         self._cached_window_size = Size(int(size[0]), int(size[1]))
         self._min_window_size = None  # (width, height) in native pixels, or None
 
@@ -127,16 +128,24 @@ class Window(Container):
 
         if self._previous_state != current_state:
             if self._previous_state == WindowState.MINIMIZED:
-                self.interface.on_show()
+                if not self._visible:
+                    self._visible = True
+                    self.interface.on_show()
             elif current_state == WindowState.MINIMIZED:
-                self.interface.on_hide()
+                if self._visible:
+                    self._visible = False
+                    self.interface.on_hide()
             self._previous_state = current_state
 
     def winui3_visibility_changed(self, sender, args):
         if self.native.Visible:
-            self.interface.on_show()
+            if not self._visible:
+                self._visible = True
+                self.interface.on_show()
         else:
-            self.interface.on_hide()
+            if self._visible:
+                self._visible = False
+                self.interface.on_hide()
 
     def winui3_activated(self, sender, args):
         from win32more.Microsoft.UI.Xaml import WindowActivationState
@@ -568,11 +577,7 @@ class MainWindow(Window):
                         ToolTipService.SetToolTip(btn, cmd.tooltip)
                     if cmd.icon is not None and cmd.icon._impl:
                         icon = BitmapIcon()
-                        icon_path = cmd.icon._impl.path
-                        if icon_path:
-                            from win32more.Windows.Foundation import Uri
-
-                            icon.UriSource = Uri(f"file:///{icon_path}")
+                        icon.UriSource = cmd.icon._impl._as_uri()
                         btn.Icon = icon
                     btn.IsEnabled = cmd.enabled
                     btn.add_Click(WeakrefCallable(cmd._impl.winui3_click))

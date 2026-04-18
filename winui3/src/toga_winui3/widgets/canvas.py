@@ -777,7 +777,9 @@ class Canvas(Widget):
 
         # Extract pixel bytes (premultiplied BGRA) and convert to straight alpha
         pixel_bytes = bytes(render_target.GetPixelBytes())
-        img = PILImage.frombytes("RGBA", (px_width, px_height), pixel_bytes, "raw", "BGRA")
+        img = PILImage.frombytes(
+            "RGBA", (px_width, px_height), pixel_bytes, "raw", "BGRA"
+        )
 
         # Win2D stores pixels in premultiplied alpha; unpremultiply for correct PNG
         r, g, b, a = img.split()

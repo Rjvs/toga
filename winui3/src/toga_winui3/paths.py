@@ -32,7 +32,7 @@ def _get_local_app_data():
     conventional path if the API call fails.
     """
     try:
-        path_ptr = ctypes.c_wchar_p()
+        path_ptr = ctypes.c_void_p()
         hr = ctypes.windll.shell32.SHGetKnownFolderPath(
             ctypes.byref(FOLDERID_LocalAppData),
             0,  # dwFlags
@@ -40,7 +40,7 @@ def _get_local_app_data():
             ctypes.byref(path_ptr),
         )
         if hr == 0:  # S_OK
-            result = Path(path_ptr.value)
+            result = Path(ctypes.wstring_at(path_ptr.value))
             ctypes.windll.ole32.CoTaskMemFree(path_ptr)
             return result
     except Exception:

@@ -16,7 +16,7 @@ There are skills available;
 
 ## Project Overview
 
-Our aim is to create a fully-functional WinUI3-based backend for Toga. It's very important that all of the Toga API types are correct and provide funtionally equivalent information as the WinForms backend. All features present in the toga-winforms backend should be equally functional in the new toga-winui3 backend. Obviously the implementations themselves will be different but all components must uphold to Toga contract and behave the way that a Toga backend is supposed to behave. It should all be tested thoroughly, using the Toga testing standards and the tests should be equivalent to all of the other backends.
+Our aim is to create a fully-functional WinUI3-based backend for Toga. It's very important that all of the Toga API types are correct and provide functionally equivalent information as the WinForms backend. All features present in the toga-winforms backend should be equally functional in the new toga-winui3 backend. Obviously the implementations themselves will be different but all components must uphold to Toga contract and behave the way that a Toga backend is supposed to behave. It should all be tested thoroughly, using the Toga testing standards and the tests should be equivalent to all of the other backends.
 
 ## Semantic Versioning
 

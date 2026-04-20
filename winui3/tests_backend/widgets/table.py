@@ -81,8 +81,18 @@ class TableProbe(SimpleProbe):
         return round(child.ActualWidth / self.scale_factor)
 
     async def resize_column(self, index, width):
-        # Column resizing isn't directly supported in this backend.
-        pytest.skip("Column resizing not supported on this backend")
+        from win32more.Microsoft.UI.Xaml import GridLength, GridUnitType
+
+        pixel_width = round(width * self.scale_factor)
+        gl = GridLength(pixel_width, GridUnitType.Pixel)
+
+        # Update header column definition.
+        self.impl._header.ColumnDefinitions.GetAt(index).Width = gl
+
+        # Update every row grid to keep columns aligned.
+        for i in range(self.impl._list_view.Items.Size):
+            row_grid = self.impl._list_view.Items.GetAt(i)
+            row_grid.ColumnDefinitions.GetAt(index).Width = gl
 
     async def select_row(self, row, add=False):
         lv = self.impl._list_view

@@ -1,12 +1,28 @@
+from win32more.Microsoft.UI.Xaml import TextAlignment
 from win32more.Microsoft.UI.Xaml.Controls import (
     NumberBox,
     NumberBoxSpinButtonPlacementMode,
+    TextBox,
 )
+from win32more.Microsoft.UI.Xaml.Media import VisualTreeHelper
 
 from toga.handlers import WeakrefCallable
 
 from ._utils import unbounded_size
 from .base import Widget
+
+
+def _find_inner_textbox(element):
+    """Walk the visual tree to find the first TextBox descendant."""
+    count = VisualTreeHelper.GetChildrenCount(element)
+    for i in range(count):
+        child = VisualTreeHelper.GetChild(element, i)
+        if isinstance(child, TextBox):
+            return child
+        result = _find_inner_textbox(child)
+        if result is not None:
+            return result
+    return None
 
 
 class NumberInput(Widget):
@@ -16,6 +32,19 @@ class NumberInput(Widget):
         self.native = NumberBox()
         self.native.SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Inline
         self.native.add_ValueChanged(WeakrefCallable(self.winui3_value_changed))
+
+        # Text alignment is applied to the inner TextBox, which only exists
+        # once the control template is loaded.  Cache the pending value and
+        # apply it in _apply_text_alignment after the control is loaded.
+        self._pending_text_alignment = None
+        self._inner_textbox = None
+        self.native.add_Loaded(WeakrefCallable(self._on_loaded))
+
+    def _on_loaded(self, sender, args):
+        """Apply deferred text alignment once the visual tree is available."""
+        if self._pending_text_alignment is not None:
+            self._apply_text_alignment(self._pending_text_alignment)
+            self._pending_text_alignment = None
 
     def get_readonly(self):
         # NumberBox has no IsReadOnly property.  We use IsHitTestVisible +
@@ -57,6 +86,25 @@ class NumberInput(Widget):
 
     def set_max_value(self, value):
         self.native.Maximum = float(value) if value is not None else float("inf")
+
+    def set_text_align(self, value):
+        alignment = {
+            "left": TextAlignment.Left,
+            "right": TextAlignment.Right,
+            "center": TextAlignment.Center,
+        }.get(str(value), TextAlignment.Left)
+
+        if self._inner_textbox is not None or _find_inner_textbox(self.native):
+            self._apply_text_alignment(alignment)
+        else:
+            # Control template not yet loaded; defer until Loaded event.
+            self._pending_text_alignment = alignment
+
+    def _apply_text_alignment(self, alignment):
+        if self._inner_textbox is None:
+            self._inner_textbox = _find_inner_textbox(self.native)
+        if self._inner_textbox is not None:
+            self._inner_textbox.TextAlignment = alignment
 
     def rehint(self):
         self.native.Measure(unbounded_size())

@@ -4,6 +4,7 @@ import pytest
 from win32more.Microsoft.UI.Xaml.Controls import NumberBox
 
 from .base import SimpleProbe
+from .properties import toga_x_text_align
 
 
 class NumberInputProbe(SimpleProbe):
@@ -37,8 +38,14 @@ class NumberInputProbe(SimpleProbe):
 
     @property
     def text_align(self):
-        # NumberBox doesn't directly expose TextAlignment.
-        pytest.skip("Can't read text alignment on NumberBox")
+        inner = self.impl._inner_textbox
+        if inner is None:
+            from toga_winui3.widgets.numberinput import _find_inner_textbox
+
+            inner = _find_inner_textbox(self.native)
+        if inner is None:
+            pytest.skip("Inner TextBox not available in NumberBox visual tree")
+        return toga_x_text_align(inner.TextAlignment)
 
     def assert_vertical_text_align(self, expected):
         # Vertical text alignment isn't configurable in this native widget.

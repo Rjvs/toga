@@ -336,7 +336,8 @@ def generate_stub(module: str, classes: list[ClassInfo]) -> str:
             parts = base.rsplit(".", 1)
             mod = parts[0]
             name = parts[1]
-            imports_needed.setdefault(mod, set()).add(name)
+            if name not in local_class_names:
+                imports_needed.setdefault(mod, set()).add(name)
 
     for mod in sorted(imports_needed):
         names = sorted(imports_needed[mod])
@@ -403,7 +404,7 @@ def _generate_class_stub(lines: list[str], cls: ClassInfo, module: str) -> None:
         has_content = True
 
     # Properties — all typed as Any for simplicity
-    for name, writable in cls.properties:
+    for name, _writable in cls.properties:
         lines.append(f"    {name}: Any")
         has_content = True
 

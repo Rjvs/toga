@@ -92,9 +92,6 @@ class MapView(Widget):
         from win32more.Microsoft.UI.Xaml.Controls import WebView2
 
         self.native = WebView2()
-        self.native.add_NavigationCompleted(
-            WeakrefCallable(self.winui3_navigation_completed)
-        )
 
         # Two-phase startup: WebView2 init → Leaflet HTML load.
         # Commands are queued in the backlog until the page is ready.
@@ -134,10 +131,14 @@ class MapView(Widget):
 
         self.native.CoreWebView2.NavigateToString(MAPVIEW_HTML_CONTENT)
 
+        # Attach NavigationCompleted *after* NavigateToString so it only fires
+        # for the Leaflet HTML load, not for the earlier about:blank page that
+        # WebView2 navigates to during EnsureCoreWebView2Async.
+        self.native.add_NavigationCompleted(
+            WeakrefCallable(self.winui3_navigation_completed)
+        )
+
     def winui3_navigation_completed(self, sender, args):
-        # NavigationCompleted can fire multiple times (e.g. for the initial
-        # about:blank page during EnsureCoreWebView2Async, then again for the
-        # Leaflet HTML).  Only replay the backlog once.
         if self.backlog is None:
             return
         for javascript in self.backlog:

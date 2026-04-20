@@ -16,6 +16,7 @@ from toga.fonts import (
     FANTASY,
     MESSAGE,
     MONOSPACE,
+    POINTS_PER_PIXEL,
     SANS_SERIF,
     SERIF,
     SYSTEM,
@@ -118,6 +119,6 @@ class Font:
         """Return the given metric, measured in CSS pixels."""
         family = self.native.FontFamily
         style = self.native.Style
-        em_height = self.native.SizeInPoints * 96 / 72
+        em_height = self.native.SizeInPoints * POINTS_PER_PIXEL
         design_unit = em_height / family.GetEmHeight(style)
         return design_unit * getattr(family, f"Get{name}")(style)

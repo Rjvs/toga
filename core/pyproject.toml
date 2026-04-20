@@ -83,6 +83,9 @@ Changelog = "https://toga.beeware.org/en/stable/background/project/releases"
 [project.entry-points."toga.image_formats"]
 pil = "toga.plugins.image_formats.PILConverter"
 
+[tool.uv.sources]
+travertino = { path = "../travertino" }
+
 [tool.setuptools_scm]
 root = ".."
 

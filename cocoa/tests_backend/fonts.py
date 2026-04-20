@@ -7,6 +7,7 @@ from toga.fonts import (
     MONOSPACE,
     NORMAL,
     OBLIQUE,
+    POINTS_PER_PIXEL,
     SANS_SERIF,
     SERIF,
     SMALL_CAPS,
@@ -52,7 +53,7 @@ class FontMixin:
         if expected == SYSTEM_DEFAULT_FONT_SIZE:
             assert self.font.pointSize == 13
         else:
-            assert self.font.pointSize == expected * 96 / 72
+            assert self.font.pointSize == expected * POINTS_PER_PIXEL
 
     def assert_font_family(self, expected):
         assert str(self.font.familyName) == {

@@ -5,7 +5,6 @@ from PySide6.QtGui import QFont, QFontDatabase
 from toga.fonts import (
     _IMPL_CACHE,
     _REGISTERED_FONT_CACHE,
-    BOLD,
     CURSIVE,
     FANTASY,
     ITALIC,
@@ -37,8 +36,8 @@ QT_FONT_STYLES = {
     OBLIQUE: QFont.Style.StyleOblique,
 }
 QT_FONT_WEIGHTS = {
-    NORMAL: QFont.Weight.Normal,
-    BOLD: QFont.Weight.Bold,
+    400: QFont.Weight.Normal,
+    700: QFont.Weight.Bold,
 }
 
 # Names of user-registered fonts loaded into QFontDatabase
@@ -115,8 +114,13 @@ class Font:
     def _assign_native(self, font):
         # Given a minimally initialized QFont, set all the other features
         font.setStyle(QT_FONT_STYLES[self.interface.style])
-        weight = QT_FONT_WEIGHTS.get(self.interface.weight, self.interface.weight)
+        # Qt6 weight values match CSS numeric weights directly (400=Normal, 700=Bold)
+        weight = QT_FONT_WEIGHTS.get(int(self.interface.weight), self.interface.weight)
         font.setWeight(weight)
+        # Qt stretch accepts integer percentages matching CSS font-width
+        width = int(self.interface.width)
+        if width != 100:
+            font.setStretch(width)
         if self.interface.variant == SMALL_CAPS:
             font.setCapitalization(QFont.Capitalization.SmallCaps)
         if self.interface.size != SYSTEM_DEFAULT_FONT_SIZE:

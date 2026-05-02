@@ -29,6 +29,7 @@ from travertino.constants import (  # noqa: F401
     SANS_SERIF,
     SERIF,
     SMALL_CAPS,
+    STANDARD_AXES,
     START,
     SYSTEM,
     TOP,
@@ -43,14 +44,126 @@ from toga.fonts import (
     FONT_STYLES,
     FONT_VARIANTS,
     FONT_WEIGHTS,
+    FONT_WIDTHS,
     SYSTEM_DEFAULT_FONT_SIZE,
     SYSTEM_DEFAULT_FONTS,
+    FontWeight,
+    FontWidth,
 )
 
 from .compat import _alignment_property
 from .layout import PackLogic
 
 NOT_PROVIDED = object()
+
+
+class font_weight_property(validated_property):
+    """A validated property that normalizes font weight to FontWeight.
+
+    Accepts keyword strings ("normal", "bold") and integers (1-1000),
+    always normalizing to a FontWeight instance.
+    """
+
+    def __init__(self):
+        super().__init__(*FONT_WEIGHTS, integer=True, initial=FontWeight(NORMAL))
+
+    def validate(self, value):
+        try:
+            return FontWeight(value)
+        except (ValueError, TypeError) as error:
+            raise ValueError(
+                f"Invalid value {value!r} for property{self._name_if_set}; "
+                f"Valid values are: {self.choices}"
+            ) from error
+
+
+class font_width_property(validated_property):
+    """A validated property that normalizes font width to FontWidth.
+
+    Accepts keyword strings ("normal", "condensed", "expanded", etc.) and
+    numeric percentages, always normalizing to a FontWidth instance.
+    """
+
+    def __init__(self):
+        super().__init__(*FONT_WIDTHS, number=True, initial=FontWidth(NORMAL))
+
+    def validate(self, value):
+        try:
+            return FontWidth(value)
+        except (ValueError, TypeError) as error:
+            raise ValueError(
+                f"Invalid value {value!r} for property{self._name_if_set}; "
+                f"Valid values are: {self.choices}"
+            ) from error
+
+
+class font_axes_property:
+    """A property for custom OpenType variation axes.
+
+    Accepts a dict mapping axis tags to numeric values, or None.
+    Standard axes (wght, wdth, ital) must use named properties instead.
+    """
+
+    def __set_name__(self, style_class, name):
+        self.name = name
+        style_class._BASE_PROPERTIES[style_class].add(name)
+        style_class._BASE_ALL_PROPERTIES[style_class].add(name)
+
+    def __get__(self, style, style_class=None):
+        if style is None:
+            return self
+        return getattr(style, f"_{self.name}", None)
+
+    def __set__(self, style, value):
+        if value is self:
+            return
+
+        value = self.validate(value)
+        current = self.__get__(style)
+
+        setattr(style, f"_{self.name}", value)
+        if value != current:
+            style.apply(self.name)
+
+    def __delete__(self, style):
+        try:
+            current = getattr(style, f"_{self.name}")
+            delattr(style, f"_{self.name}")
+        except AttributeError:
+            pass
+        else:
+            if current is not None:
+                style.apply(self.name)
+
+    def validate(self, value):
+        if value is None:
+            return None
+        if not isinstance(value, dict):
+            raise ValueError(
+                f"Invalid value {value!r} for property {self.name}; "
+                f"expected a dict mapping axis tags to numeric values, or None."
+            )
+        for tag, val in value.items():
+            if not isinstance(tag, str) or len(tag) != 4:
+                raise ValueError(
+                    f"Invalid axis tag {tag!r}; "
+                    f"OpenType axis tags must be 4-character strings."
+                )
+            if tag in STANDARD_AXES:
+                raise ValueError(
+                    f"Standard axis {tag!r} must be set via its named property, "
+                    f"not font_axes."
+                )
+            if not isinstance(val, (int, float)):
+                raise ValueError(
+                    f"Invalid value {val!r} for axis {tag!r}; "
+                    f"axis values must be numeric."
+                )
+        return dict(value)
+
+    def is_set_on(self, style):
+        return hasattr(style, f"_{self.name}")
+
 
 PACK = "pack"
 
@@ -298,12 +411,31 @@ class Pack(PackLogic):
     **Note:** Windows and Android do not support the small caps variant. A request for a
     `"small_caps"` font will be interpreted as `"normal"`.
     """
-    font_weight: str = validated_property(*FONT_WEIGHTS, initial=NORMAL)
+    font_weight: str | int = font_weight_property()
     """The weight of the font to be used.
 
-    **Allowed values:** `"normal"` or `"bold"`
+    **Allowed values:** `"normal"`` (400), ``"bold"`` (700), or an integer from 1 to 1000.
 
-    **Default value:** `"normal"`
+    **Default value:** `"normal"` (400)
+    """
+    font_width: str | int | float = font_width_property()
+    """The width of the font to be used (CSS ``font-width`` / ``font-stretch``).
+
+    **Allowed values:** ``"normal"`` (100%), ``"condensed"`` (75%),
+    ``"expanded"`` (125%), other CSS width keywords, or a numeric percentage.
+
+    **Default value:** ``"normal"`` (100%)
+    """
+    font_axes: dict[str, float] | None = font_axes_property()
+    """Custom OpenType variation axes for variable fonts.
+
+    **Allowed values:** a dict mapping 4-character axis tags to numeric values
+    (e.g., ``{"CASL": 0.5, "MONO": 1}``), or ``None``.
+
+    **Default value:** ``None``
+
+    Standard axes (``wght``, ``wdth``, ``ital``) must be set via their named
+    properties (``font_weight``, ``font_width``, ``font_style``) instead.
     """
     font_size: int = validated_property(integer=True, initial=SYSTEM_DEFAULT_FONT_SIZE)
     """The size of the font to be used, in [CSS points][css-units].
@@ -318,8 +450,9 @@ class Pack(PackLogic):
         | tuple[str, int, list[str] | str]
         | tuple[str, str, int, list[str] | str]
         | tuple[str, str, str, int, list[str] | str]
+        | tuple[str, str, str, str | int | float, int, list[str] | str]
     ) = composite_property(
-        optional=("font_style", "font_variant", "font_weight"),
+        optional=("font_style", "font_variant", "font_weight", "font_width"),
         required=("font_size", "font_family"),
     )
     """A shorthand for simultaneously setting multiple properties of a font.

@@ -24,7 +24,7 @@ class FontMixin:
     supports_custom_variable_fonts = False
 
     def preinstalled_font(self):
-        return "Georgia"
+        return "Helvetica"
 
     def assert_font_options(self, weight=NORMAL, style=NORMAL, variant=NORMAL):
         # Cocoa's FANTASY (Papyrus) and CURSIVE (Snell Roundhand) system

@@ -94,7 +94,7 @@ class Font:
     def _assign_native(self, font_family):
         # Convert font style to Winforms format
         font_style = FontStyle.Regular
-        if self.interface.weight == "bold" and font_family.IsStyleAvailable(
+        if self.interface.weight >= 600 and font_family.IsStyleAvailable(
             FontStyle.Bold
         ):
             font_style |= FontStyle.Bold

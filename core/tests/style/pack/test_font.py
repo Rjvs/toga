@@ -17,18 +17,29 @@ def assert_font(style, expected):
     assert style.font == expected
 
     # Also test against the underlying individual properties
-    (font_style, font_variant, font_weight, font_size, font_family) = expected
+    (
+        font_style,
+        font_variant,
+        font_weight,
+        font_width,
+        font_size,
+        font_family,
+    ) = expected
 
     assert style.font_style == font_style
     assert style.font_variant == font_variant
     assert style.font_weight == font_weight
+    assert style.font_width == font_width
     assert style.font_size == font_size
     assert style.font_family == font_family
 
 
 def test_default_values():
     """A blank Pack instance has the correct default values."""
-    assert_font(Pack(), (NORMAL, NORMAL, NORMAL, SYSTEM_DEFAULT_FONT_SIZE, [SYSTEM]))
+    assert_font(
+        Pack(),
+        (NORMAL, NORMAL, NORMAL, NORMAL, SYSTEM_DEFAULT_FONT_SIZE, [SYSTEM]),
+    )
 
 
 @pytest.mark.parametrize(
@@ -44,7 +55,10 @@ def test_assign_all_non_default(values):
     """Assigning all three optionals works, regardless of order."""
     style = Pack(font=values)
 
-    assert_font(style, (ITALIC, SMALL_CAPS, BOLD, 12, ["Comic Sans", SANS_SERIF]))
+    assert_font(
+        style,
+        (ITALIC, SMALL_CAPS, BOLD, NORMAL, 12, ["Comic Sans", SANS_SERIF]),
+    )
 
 
 ONE_NON_DEFAULT_PARAMS = pytest.mark.parametrize(
@@ -67,7 +81,10 @@ def test_assign_one_non_default(values):
     """NORMAL values stay NORMAL when set explicitly or omitted, in any order"""
     style = Pack(font=values)
 
-    assert_font(style, (NORMAL, SMALL_CAPS, NORMAL, 12, ["Comic Sans", SANS_SERIF]))
+    assert_font(
+        style,
+        (NORMAL, SMALL_CAPS, NORMAL, NORMAL, 12, ["Comic Sans", SANS_SERIF]),
+    )
 
 
 @ONE_NON_DEFAULT_PARAMS
@@ -76,14 +93,17 @@ def test_assign_one_non_default_after_setting(values):
     style = Pack(font_weight=BOLD, font_style=ITALIC)
     style.font = values
 
-    assert_font(style, (NORMAL, SMALL_CAPS, NORMAL, 12, ["Comic Sans", SANS_SERIF]))
+    assert_font(
+        style,
+        (NORMAL, SMALL_CAPS, NORMAL, NORMAL, 12, ["Comic Sans", SANS_SERIF]),
+    )
 
 
 @pytest.mark.parametrize(
     "value",
     [
         "Comic Sans",
-        (NORMAL, SMALL_CAPS, NORMAL, 12, ["Comic Sans", SANS_SERIF], "extra"),
+        (NORMAL, SMALL_CAPS, NORMAL, NORMAL, 12, ["Comic Sans", SANS_SERIF], "extra"),
         None,
         12,
     ],
@@ -95,7 +115,7 @@ def test_assign_invalid_font(value):
         match=(
             r"Composite property 'font' assignment must provide 'font_size' and "
             r"'font_family', optionally preceded by 'font_style', 'font_variant', "
-            r"and/or 'font_weight'\."
+            r"'font_weight', and/or 'font_width'\."
         ),
     ):
         _ = Pack(font=value)

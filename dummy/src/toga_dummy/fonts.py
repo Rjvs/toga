@@ -27,6 +27,10 @@ class Font(LoggedObject):
     def load_arbitrary_system_font(self):
         raise UnknownFontError("Arbitrary system fonts not yet supported on dummy")
 
+    @staticmethod
+    def installed_families():
+        return {"Font Family 1", "Font Family 2", "Font Family 3"}
+
     def __eq__(self, other):
         return all(
             [

@@ -5,7 +5,7 @@ from System.Drawing import (
     FontStyle,
     SystemFonts,
 )
-from System.Drawing.Text import PrivateFontCollection
+from System.Drawing.Text import InstalledFontCollection, PrivateFontCollection
 from System.IO import FileNotFoundException
 from System.Runtime.InteropServices import ExternalException
 
@@ -90,6 +90,10 @@ class Font:
             raise UnknownFontError(msg) from exc
 
         self._assign_native(font_family)
+
+    @staticmethod
+    def installed_families():
+        return {str(family.Name) for family in InstalledFontCollection().Families}
 
     def _assign_native(self, font_family):
         # Convert font style to Winforms format

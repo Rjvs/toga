@@ -221,3 +221,23 @@ async def test_arbitrary_system_font(widget: toga.Label, font_probe):
     family = font_probe.preinstalled_font()
     widget.font_family = family
     font_probe.assert_font_family(family)
+
+
+async def test_installed_families(font_probe):
+    """The list of installed font families can be retrieved."""
+    if not font_probe.supports_font_enumeration:
+        pytest.skip("Platform doesn't support font enumeration")
+
+    families = Font.installed_families()
+
+    assert isinstance(families, set)
+    assert len(families) > 0
+
+    for name in families:
+        assert isinstance(name, str)
+
+    # A known pre-installed font should be in the list
+    assert font_probe.preinstalled_font() in families
+
+    # Toga's generic aliases should NOT be in the list
+    assert families.isdisjoint(SYSTEM_DEFAULT_FONTS)

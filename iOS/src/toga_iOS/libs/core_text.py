@@ -3,7 +3,7 @@
 ##########################################################################
 from ctypes import c_bool, c_double, c_uint32, c_void_p, cdll, util
 
-from rubicon.objc.runtime import objc_const
+from rubicon.objc import objc_const
 
 ######################################################################
 core_text = cdll.LoadLibrary(util.find_library("CoreText"))

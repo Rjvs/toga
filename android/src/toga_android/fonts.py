@@ -8,7 +8,6 @@ from org.beeware.android import MainActivity
 from toga.fonts import (
     _IMPL_CACHE,
     _REGISTERED_FONT_CACHE,
-    BOLD,
     CURSIVE,
     FANTASY,
     ITALIC,
@@ -86,7 +85,7 @@ class Font:
 
     def _assign_native(self, typeface):
         style = 0
-        if self.interface.weight == BOLD:
+        if self.interface.weight >= 600:
             style |= Typeface.BOLD
         if self.interface.style in {ITALIC, OBLIQUE}:
             style |= Typeface.ITALIC

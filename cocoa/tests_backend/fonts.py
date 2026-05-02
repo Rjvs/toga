@@ -22,7 +22,7 @@ class FontMixin:
     supports_font_enumeration = True
 
     def preinstalled_font(self):
-        return "Helvetica Neue"
+        return "Helvetica"
 
     def assert_font_options(self, weight=NORMAL, style=NORMAL, variant=NORMAL):
         # Cocoa's FANTASY (Papyrus) and CURSIVE (Apple Chancery) system

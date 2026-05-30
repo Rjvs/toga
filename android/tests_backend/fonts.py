@@ -61,6 +61,7 @@ def reflect_font_methods():
 class FontMixin:
     supports_custom_fonts = True
     supports_custom_variable_fonts = True
+    supports_font_enumeration = False
 
     def preinstalled_font(self):
         pytest.skip("Use of arbitrary system fonts is not yet supported on Android.")

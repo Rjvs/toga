@@ -185,6 +185,21 @@ class Font(BaseFont):
         _REGISTERED_FONT_CACHE[font_key] = str(toga.App.app.paths.app / path)
 
     @staticmethod
+    def installed_families() -> set[str]:
+        """Return the set of font family names installed on the system.
+
+        This does not include the Toga-predefined generic family names
+        (system, message, serif, sans-serif, etc.) or user-registered fonts.
+
+        :returns: A set of font family name strings available on the current
+            platform.
+        :raises NotImplementedError: If the current backend does not support
+            font enumeration.
+        """
+        factory = get_factory()
+        return factory.Font.installed_families()
+
+    @staticmethod
     def _registered_font_key(
         family: str,
         weight: str | int,

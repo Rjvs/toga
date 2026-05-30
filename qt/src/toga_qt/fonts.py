@@ -111,6 +111,10 @@ class Font:
         font.setFamily(self.interface.family)
         self._assign_native(font)
 
+    @staticmethod
+    def installed_families():
+        return set(QFontDatabase.families())
+
     def _assign_native(self, font):
         # Given a minimally initialized QFont, set all the other features
         font.setStyle(QT_FONT_STYLES[self.interface.style])
